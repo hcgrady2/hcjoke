@@ -13,11 +13,15 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.hc.hcppjoke.R;
+import com.hc.libnavannotation.FragmentDestination;
 
+
+@FragmentDestination(pageUrl =  "main/tabs/home",asStarter = true)
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
