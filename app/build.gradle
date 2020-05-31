@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.hc.hcppjoke"
-        minSdkVersion 15
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -45,6 +45,10 @@ dependencies {
 
     implementation project(path: ':libnavannotation')
     annotationProcessor project(":libnavcompiler")
+
+
+    implementation 'com.alibaba:fastjson:1.2.59'
+    implementation project(path: ':libcommon')
 
 
 }
