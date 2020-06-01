@@ -58,23 +58,26 @@ public class MainActivity extends AppCompatActivity   implements BottomNavigatio
         setContentView(R.layout.activity_main);
         navView = findViewById(R.id.nav_view);
 
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-        navController = NavHostFragment.findNavController(fragment);
-        NavGraphBuilder.build(this, fragment.getChildFragmentManager(), navController, fragment.getId());
+      //  Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+      //  navController = NavHostFragment.findNavController(fragment);
 
+        navController = Navigation.findNavController(this,R.id.nav_host_fragment);
+        NavGraphBuilder.build(navController);
+
+        //关联点击事件
         navView.setOnNavigationItemSelectedListener(this);
 
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        HashMap<String, Destination> destConfig = AppConfig.getDestConfig();
-        Iterator<Map.Entry<String, Destination>> iterator = destConfig.entrySet().iterator();
-        //遍历 target destination 是否需要登录拦截
-        while (iterator.hasNext()) {
-            Map.Entry<String, Destination> entry = iterator.next();
-            Destination value = entry.getValue();
-        }
+//        HashMap<String, Destination> destConfig = AppConfig.getDestConfig();
+//        Iterator<Map.Entry<String, Destination>> iterator = destConfig.entrySet().iterator();
+//        //遍历 target destination 是否需要登录拦截
+//        while (iterator.hasNext()) {
+//            Map.Entry<String, Destination> entry = iterator.next();
+//            Destination value = entry.getValue();
+//        }
 
         navController.navigate(menuItem.getItemId());
         return !TextUtils.isEmpty(menuItem.getTitle());

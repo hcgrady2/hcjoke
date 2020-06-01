@@ -21,6 +21,8 @@ import java.util.HashMap;
 
 public class AppConfig {
     private static HashMap<String, Destination> sDestConfig;
+
+    //q全局静态就可以
     private static BottomBar sBottomBar;
     private static SofaTab sSofaTab, sFindTabConfig;
 

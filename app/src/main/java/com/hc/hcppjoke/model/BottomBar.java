@@ -4,9 +4,10 @@ import java.util.List;
 
 /**
  * Created by hcw  on 2020/5/31
- * 类描述：
+ * 类描述：底部导航
  * all rights reserved
  */
+
 
 public class BottomBar {
 

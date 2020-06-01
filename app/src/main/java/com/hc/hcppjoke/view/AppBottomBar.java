@@ -47,20 +47,27 @@ public class AppBottomBar extends BottomNavigationView {
         int[][] state = new int[2][];
         state[0] = new int[]{android.R.attr.state_selected};
         state[1] = new int[]{};
+
         int[] colors = new int[]{Color.parseColor(config.activeColor), Color.parseColor(config.inActiveColor)};
+
         ColorStateList stateList = new ColorStateList(state, colors);
+
         setItemTextColor(stateList);
+
         setItemIconTintList(stateList);
+
         //LABEL_VISIBILITY_LABELED:设置按钮的文本为一直显示模式
         //LABEL_VISIBILITY_AUTO:当按钮个数小于三个时一直显示，或者当按钮个数大于3个且小于5个时，被选中的那个按钮文本才会显示
         //LABEL_VISIBILITY_SELECTED：只有被选中的那个按钮的文本才会显示
         //LABEL_VISIBILITY_UNLABELED:所有的按钮文本都不显示
+
         setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
         List<BottomBar.Tab> tabs = config.tabs;
         for (BottomBar.Tab tab : tabs) {
             if (!tab.enable) {
                 continue;
             }
+            //menu item id 和 页面 id 绑定
             int itemId = getItemId(tab.pageUrl);
             if (itemId < 0) {
                 continue;
@@ -69,6 +76,8 @@ public class AppBottomBar extends BottomNavigationView {
             menuItem.setIcon(sIcons[tab.index]);
         }
 
+
+        //都添加完成之后（会先移除），才能设置大小
         //此处给按钮icon设置大小
         int index = 0;
         for (BottomBar.Tab tab : config.tabs) {
@@ -83,8 +92,13 @@ public class AppBottomBar extends BottomNavigationView {
 
             int iconSize = dp2Px(tab.size);
             BottomNavigationMenuView menuView = (BottomNavigationMenuView) getChildAt(0);
+
+            //里面的数组，可以用来改变大小
             BottomNavigationItemView itemView = (BottomNavigationItemView) menuView.getChildAt(index);
+
             itemView.setIconSize(iconSize);
+
+            //大按钮着色
             if (TextUtils.isEmpty(tab.title)) {
                 int tintColor = TextUtils.isEmpty(tab.tintColor) ? Color.parseColor("#ff678f") : Color.parseColor(tab.tintColor);
                 itemView.setIconTintList(ColorStateList.valueOf(tintColor));
