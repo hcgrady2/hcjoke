@@ -36,6 +36,8 @@ public class NavGraphBuilder {
         //FragmentNavigator fragmentNavigator = provider.getNavigator(FragmentNavigator.class);
         //fragment的导航此处使用我们定制的FixFragmentNavigator，底部Tab切换时 使用hide()/show(),而不是replace()
         FixFragmentNavigator fragmentNavigator = new FixFragmentNavigator(activity, childFragmentManager, containerId);
+
+        //这样就添加了自定义导航器
         provider.addNavigator(fragmentNavigator);
         ActivityNavigator activityNavigator = provider.getNavigator(ActivityNavigator.class);
         HashMap<String, Destination> destConfig = AppConfig.getDestConfig();

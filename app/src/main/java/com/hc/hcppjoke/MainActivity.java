@@ -58,11 +58,12 @@ public class MainActivity extends AppCompatActivity   implements BottomNavigatio
         setContentView(R.layout.activity_main);
         navView = findViewById(R.id.nav_view);
 
-      //  Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-      //  navController = NavHostFragment.findNavController(fragment);
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        navController = NavHostFragment.findNavController(fragment);
+        NavGraphBuilder.build(this, fragment.getChildFragmentManager(), navController, fragment.getId());
 
-        navController = Navigation.findNavController(this,R.id.nav_host_fragment);
-        NavGraphBuilder.build(navController);
+        //navController = Navigation.findNavController(this,R.id.nav_host_fragment);
+       // NavGraphBuilder.build(navController);
 
         //关联点击事件
         navView.setOnNavigationItemSelectedListener(this);

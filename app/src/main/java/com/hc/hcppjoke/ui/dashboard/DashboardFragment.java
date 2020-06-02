@@ -1,6 +1,7 @@
 package com.hc.hcppjoke.ui.dashboard;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +19,15 @@ import com.hc.libnavannotation.FragmentDestination;
 @FragmentDestination(pageUrl =  "main/tabs/dash",asStarter = false)
 public class DashboardFragment extends Fragment {
 
+    private static final String TAG = "HCTAG";
+
     private DashboardViewModel dashboardViewModel;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        Log.i(TAG, " Dashborad onCreateView: ");
         dashboardViewModel =
                 ViewModelProviders.of(this).get(DashboardViewModel.class);
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);

@@ -66,3 +66,26 @@ make project ，理论上会在 asstes 下生成文件。
 
 
 #### 3、构建底部导航栏
+
+
+
+#### 4、定制 Fragment 导航器
+1、默认 repleace 会导致生命周期重新走一遍。
+
+2、如果替换成定制的导航器，fragment切换时还能多次打印onCreateView日志。
+请检查FixFragmentNavigate的navigate方法中ft.add(id%2Cfragment%2Ctag)+方法，有没有把tag传递进去。
+
+```
+    //navController = Navigation.findNavController(this,R.id.nav_host_fragment);
+       // NavGraphBuilder.build(navController);
+```
+这样的代码，每次切换生命周期都要走。
+
+```
+
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        navController = NavHostFragment.findNavController(fragment);
+        NavGraphBuilder.build(this, fragment.getChildFragmentManager(), navController, fragment.getId());
+```
+
+这样生命周期只初始化一次。

@@ -2,6 +2,7 @@ package com.hc.hcppjoke.ui.find;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,11 +28,14 @@ import com.hc.libnavannotation.FragmentDestination;
 @FragmentDestination(pageUrl = "main/tabs/find")
 public class FindFragment extends Fragment {
 
+
+    private static final String TAG = "HCTAG";
     private HomeViewModel homeViewModel;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        Log.i(TAG, "findFragment onCreateView: ]");
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);

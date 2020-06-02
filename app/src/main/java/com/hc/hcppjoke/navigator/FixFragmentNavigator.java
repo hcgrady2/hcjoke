@@ -58,11 +58,15 @@ public class FixFragmentNavigator extends FragmentNavigator {
         }
         //android.fragment.app.homefragment   homefragment
         String tag = className.substring(className.lastIndexOf(".") + 1);
+
+        //找到下一个 Fragment
         Fragment frag = mManager.findFragmentByTag(tag);
         if (frag == null) {
+            //如果没有，就实例化
             frag = instantiateFragment(mContext, mManager,
                     className, args);
         }
+
         frag.setArguments(args);
         final FragmentTransaction ft = mManager.beginTransaction();
 
@@ -91,6 +95,8 @@ public class FixFragmentNavigator extends FragmentNavigator {
 
         final @IdRes int destId = destination.getId();
         ArrayDeque<Integer> mBackStack = null;
+
+        //反射获取 mBackStack
         try {
             Field field = FragmentNavigator.class.getDeclaredField("mBackStack");
             field.setAccessible(true);

@@ -1,6 +1,7 @@
 package com.hc.hcppjoke.ui.notifications;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +19,14 @@ import com.hc.libnavannotation.FragmentDestination;
 @FragmentDestination(pageUrl =  "main/tabs/my",asStarter = false)
 public class NotificationsFragment extends Fragment {
 
+
+    private static final String TAG = "HCTAG";
     private NotificationsViewModel notificationsViewModel;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        Log.i(TAG, "notification onCreateView: ");
         notificationsViewModel =
                 ViewModelProviders.of(this).get(NotificationsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_notifications, container, false);
