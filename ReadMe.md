@@ -89,3 +89,29 @@ make project ，理论上会在 asstes 下生成文件。
 ```
 
 这样生命周期只初始化一次。
+
+
+
+### 二、网络和数据库
+#### 1、配置允许明文
+```
+        android:usesCleartextTraffic="true"
+
+```
+
+
+#### 2、泛型类型
+java 5 开始 ,calss 文件中，没有显示明确声明泛型类型的，在编译器编译阶段，就会泛型擦除。
+
+如，new ArrayList<User> 就会被擦除。
+
+
+但是，new Interface 传递的泛型，可以在运行时获取，因为会编译成 Interface 的匿名内部类。
+```
+class InnerClass implements Interface<List<User>>{
+    ParameterizedType type  = ..
+    ///... 
+    
+}
+```
+

@@ -92,6 +92,7 @@ dependencies {
     //aliyun oss
     api 'com.aliyun.dpa:oss-android-sdk:+'
 
-    ///
+    //fastjson解析
+    api 'com.alibaba:fastjson:1.2.59'
 
 }
