@@ -73,17 +73,24 @@ public class CacheManager {
         CacheDatabase.get().getCache().delete(cache);
     }
 
+
+    //保存缓存
     public static <T> void save(String key, T body) {
         Cache cache = new Cache();
         cache.key = key;
+        //将 body 转换成数组
         cache.data = toByteArray(body);
+
 
         CacheDatabase.get().getCache().save(cache);
     }
 
+
+    //读取缓存
     public static Object getCache(String key) {
         Cache cache = CacheDatabase.get().getCache().getCache(key);
         if (cache != null && cache.data != null) {
+            //转换成 object
             return toObject(cache.data);
         }
         return null;

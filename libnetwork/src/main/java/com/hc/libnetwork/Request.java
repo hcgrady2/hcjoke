@@ -32,6 +32,8 @@ import okhttp3.Response;
  * all rights reserved
  */
 
+
+//request 实现 cloneable 接口
 public abstract class Request<T, R extends Request> implements Cloneable {
     protected String mUrl;
     protected HashMap<String, String> headers = new HashMap<>();
@@ -168,6 +170,7 @@ public abstract class Request<T, R extends Request> implements Cloneable {
     @SuppressLint("RestrictedApi")
     public void execute(final JsonCallback callback) {
         if (mCacheStrategy != NET_ONLY) {
+            //根据缓存策略读取缓存。
             ArchTaskExecutor.getIOThreadExecutor().execute(new Runnable() {
                 @Override
                 public void run() {
@@ -253,12 +256,14 @@ public abstract class Request<T, R extends Request> implements Cloneable {
         return result;
     }
 
+    //缓存
     private void saveCache(T body) {
         String key = TextUtils.isEmpty(cacheKey) ? generateCacheKey() : cacheKey;
         CacheManager.save(key, body);
     }
 
     private String generateCacheKey() {
+        //url + params 作为缓存key
         cacheKey = UrlCreator.createUrlFromParams(mUrl, params);
         return cacheKey;
     }

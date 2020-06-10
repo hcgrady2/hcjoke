@@ -15,6 +15,10 @@ import com.hc.libcommon.global.AppGlobals;
 @Database(entities = {Cache.class}, version = 1)
 //数据读取、存储时数据转换器,比如将写入时将Date转换成Long存储，读取时把Long转换Date返回
 //@TypeConverters(DateConverter.class)
+
+
+//声明 abstrace,会通过注解自动生成示例。
+
 public abstract class CacheDatabase extends RoomDatabase {
     private static final CacheDatabase database;
 
@@ -22,7 +26,8 @@ public abstract class CacheDatabase extends RoomDatabase {
         //创建一个内存数据库
         //但是这种数据库的数据只存在于内存中，也就是进程被杀之后，数据随之丢失
         //Room.inMemoryDatabaseBuilder()
-        database = Room.databaseBuilder(AppGlobals.getApplication(), CacheDatabase.class, "ppjoke_cache")
+
+        database = Room.databaseBuilder(AppGlobals.getApplication(), CacheDatabase.class, "hcppjoke_cache")
                 //是否允许在主线程进行查询
                 .allowMainThreadQueries()
                 //数据库创建和打开后的回调
@@ -37,7 +42,7 @@ public abstract class CacheDatabase extends RoomDatabase {
                 //数据库升级异常后根据指定版本进行回滚
                 //.fallbackToDestructiveMigrationFrom()
                 // .addMigrations(CacheDatabase.sMigration)
-                .build();
+                .build();  //构建实例
 
     }
 
@@ -47,6 +52,7 @@ public abstract class CacheDatabase extends RoomDatabase {
         return database;
     }
 
+    //数据库升级示例
 //    static Migration sMigration = new Migration(1, 3) {
 //        @Override
 //        public void migrate(@NonNull SupportSQLiteDatabase database) {

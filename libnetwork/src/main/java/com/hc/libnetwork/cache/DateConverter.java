@@ -10,6 +10,11 @@ import java.util.Date;
  * all rights reserved
  */
 public class DateConverter {
+
+
+    /**
+     *加上注解，选择枚举，进行自动类型转换
+     */
     @TypeConverter
     public static Long date2Long(Date date) {
         return date.getTime();

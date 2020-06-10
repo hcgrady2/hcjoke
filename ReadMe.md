@@ -115,3 +115,57 @@ class InnerClass implements Interface<List<User>>{
 }
 ```
 
+
+
+### 三、数据库封装
+Room,通过注解来使用数据库，可以和 LiveData,LifeCycle,Paging 融合使用。
+
+
+#### 1、配置导出 数据库配置文件
+
+@Database 注解中可以选择是否导出配置文件，如果要导出，需要 build.gradle 中进行配置。
+ 
+```
+  javaCompileOptions{
+            annotationProcessorOptions{
+                arguments=["room.schemaLocation":"$projectDir/schemas".toString()]
+            }
+        }
+```
+
+#### 2、注解说明
+@Dao : 表示可以操作数据
+
+@ColumnInfo ： 修改表名
+
+@Insert(onConflict = OnConflictStrategy.REPLACE) : 插入冲突策略。
+
+
+@Query("select * from cache where 'key' = :key") : 查询
+
+@Delete   ： 删除
+
+
+@Update(onConflict = OnConflictStrategy.REPLACE) 更新
+
+@DataBase : 表示数据库
+
+
+@Embedded : Bean 中的 Bean 也会生成数据表中的列。
+
+
+@Ignore : 忽略某个字段
+
+
+
+@Index : 
+
+
+@Relation : 关联查询
+
+@TypeConverter : 类型转换用
+
+
+
+
+#### 3、使用 Room 缓存
