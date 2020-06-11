@@ -169,3 +169,18 @@ Room,通过注解来使用数据库，可以和 LiveData,LifeCycle,Paging 融合
 
 
 #### 3、使用 Room 缓存
+
+
+
+### 三、Tab 架构搭建
+#### 1、dataBinding
+开启
+```
+dataBinding{
+    enabled = true
+}
+```
+
+BindingAdapter注解
+BindingAdapter 和 static 方法中参数必须一一对应。
+
