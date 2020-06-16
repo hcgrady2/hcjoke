@@ -7,17 +7,17 @@
 
         <variable
             name="feed"
-            type="Feed" />
+            type="com.hc.hcppjoke.model.Feed" />
 
         <variable
             name="lifeCycleOwner"
             type="androidx.lifecycle.LifecycleOwner" />
 
-        <import type="com.mooc.ppjoke.model.Feed"></import>
+        <import type="com.hc.hcppjoke.model.Feed"></import>
 
-        <import type="com.mooc.ppjoke.utils.StringConvert"></import>
+        <import type="com.hc.hcppjoke.utils.StringConvert"></import>
 
-        <import type="com.mooc.ppjoke.ui.InteractionPresenter" />
+        <import type="com.hc.hcppjoke.ui.InteractionPresenter" />
 
         <import type="android.content.Context" />
 

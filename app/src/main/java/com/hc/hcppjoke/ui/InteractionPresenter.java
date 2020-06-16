@@ -1,28 +1,32 @@
 package com.hc.hcppjoke.ui;
 
-import android.os.UserManager;
+import android.content.Context;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.arch.core.executor.ArchTaskExecutor;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hc.hcppjoke.model.Comment;
 import com.hc.hcppjoke.model.Feed;
+import com.hc.hcppjoke.model.TagList;
 import com.hc.hcppjoke.model.User;
+import com.hc.hcppjoke.ui.login.UserManager;
+import com.hc.hcppjoke.ui.share.ShareDialog;
+import com.hc.libcommon.extention.LiveDataBus;
 import com.hc.libcommon.global.AppGlobals;
 import com.hc.libnetwork.ApiResponse;
 import com.hc.libnetwork.ApiService;
 import com.hc.libnetwork.JsonCallback;
 
+
 import org.jetbrains.annotations.NotNull;
-
-/**
- * Created by hcw  on 2020/6/11
- * 类描述：
- * all rights reserved
- */
-
 
 public class InteractionPresenter {
 

@@ -1,172 +1,93 @@
 package com.hc.hcppjoke.model;
 
+import android.text.TextUtils;
+
+import androidx.annotation.Nullable;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+
+
+import java.io.Serializable;
+
 /**
  * Created by hcw  on 2020/6/11
  * 类描述：
  * all rights reserved
  */
-public class Feed {
+public class Feed extends BaseObservable implements Serializable {
 
+    public static final int TYPE_IMAGE_TEXT = 1;//图文
+    public static final int TYPE_VIDEO = 2;//视频
     /**
-     * id : 1578919906
-     * itemId : 6831909366883424000
+     * id : 364
+     * itemId : 6739143063064549000
      * itemType : 2
-     * createTime : 1590677855
-     * duration : 68.662
-     * feeds_text : 难得在某音看到这种正能量的视频
-     * authorId : 102985300487
+     * createTime : 1569079017
+     * duration : 299.435
+     * feeds_text : 当中国地图出来那一幕，我眼泪都出来了！
+     * 太震撼了！
+     * authorId : 3223400206308231
      * activityIcon : null
      * activityText : null
-     * width : 576
-     * height : 1024
-     * url : https://pipijoke.oss-cn-hangzhou.aliyuncs.com/6831909366883424515.mp4
-     * cover : https://p1-ppx.byteimg.com/img/mosaic-legacy/30c0f00059327620262bc~576x1024_q80.jpeg
+     * width : 640
+     * height : 368
+     * url : https://pipijoke.oss-cn-hangzhou.aliyuncs.com/6739143063064549643.mp4
+     * cover :
      */
 
-    private int id;
-    private long itemId;
-    private int itemType;
-    private int createTime;
-    private double duration;
-    private String feeds_text;
-    private long authorId;
-    private Object activityIcon;
-    private Object activityText;
-    private int width;
-    private int height;
-    private String url;
-    private String cover;
+    public int id;
+    public long itemId;
+    public int itemType;
+    public long createTime;
+    public double duration;
+    public String feeds_text;
+    public long authorId;
+    public String activityIcon;
+    public String activityText;
+    public int width;
+    public int height;
+    public String url;
+    public String cover;
 
+    public User author;
+    public Comment topComment;
+    public Ugc ugc;
 
-    private User author;
-    private Coment comment;
-    private Ugc ugc;//点赞分享的数量。
-
-    public int getId() {
-        return id;
+    @Bindable
+    public Ugc getUgc() {
+        if (ugc == null) {
+            ugc = new Ugc();
+        }
+        return ugc;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public long getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(long itemId) {
-        this.itemId = itemId;
-    }
-
-    public int getItemType() {
-        return itemType;
-    }
-
-    public void setItemType(int itemType) {
-        this.itemType = itemType;
-    }
-
-    public int getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(int createTime) {
-        this.createTime = createTime;
-    }
-
-    public double getDuration() {
-        return duration;
-    }
-
-    public void setDuration(double duration) {
-        this.duration = duration;
-    }
-
-    public String getFeeds_text() {
-        return feeds_text;
-    }
-
-    public void setFeeds_text(String feeds_text) {
-        this.feeds_text = feeds_text;
-    }
-
-    public long getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(long authorId) {
-        this.authorId = authorId;
-    }
-
-    public Object getActivityIcon() {
-        return activityIcon;
-    }
-
-    public void setActivityIcon(Object activityIcon) {
-        this.activityIcon = activityIcon;
-    }
-
-    public Object getActivityText() {
-        return activityText;
-    }
-
-    public void setActivityText(Object activityText) {
-        this.activityText = activityText;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getCover() {
-        return cover;
-    }
-
-    public void setCover(String cover) {
-        this.cover = cover;
-    }
-
+    @Bindable
     public User getAuthor() {
         return author;
     }
 
-    public void setAuthor(User author) {
-        this.author = author;
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj == null || !(obj instanceof Feed))
+            return false;
+        Feed newFeed = (Feed) obj;
+        return id == newFeed.id
+                && itemId == newFeed.itemId
+                && itemType == newFeed.itemType
+                && createTime == newFeed.createTime
+                && duration == newFeed.duration
+                && TextUtils.equals(feeds_text, newFeed.feeds_text)
+                && authorId == newFeed.authorId
+                && TextUtils.equals(activityIcon, newFeed.activityIcon)
+                && TextUtils.equals(activityText, newFeed.activityText)
+                && width == newFeed.width
+                && height == newFeed.height
+                && TextUtils.equals(url, newFeed.url)
+                && TextUtils.equals(cover, newFeed.cover)
+                && (author != null && author.equals(newFeed.author))
+                && (topComment != null && topComment.equals(newFeed.topComment))
+                && (ugc != null && ugc.equals(newFeed.ugc));
     }
 
-    public Coment getComment() {
-        return comment;
-    }
 
-    public void setComment(Coment comment) {
-        this.comment = comment;
-    }
-
-    public Ugc getUgc() {
-        return ugc;
-    }
-
-    public void setUgc(Ugc ugc) {
-        this.ugc = ugc;
-    }
 }

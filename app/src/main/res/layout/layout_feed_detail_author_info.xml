@@ -7,7 +7,7 @@
 
         <variable
             name="feed"
-            type="com.mooc.ppjoke.model.Feed" />
+            type="com.hc.hcppjoke.model.Feed" />
 
         <variable
             name="leftMargin"
@@ -17,9 +17,9 @@
             name="fullscreen"
             type="java.lang.Boolean" />
 
-        <import type="com.mooc.ppjoke.utils.TimeUtils" />
+        <import type="com.hc.hcppjoke.utils.TimeUtils" />
 
-        <import type="com.mooc.ppjoke.ui.InteractionPresenter"></import>
+        <import type="com.hc.hcppjoke.ui.InteractionPresenter"></import>
 
         <variable
             name="owner"
@@ -37,7 +37,7 @@
         android:paddingBottom="@dimen/dp_3">
 
 
-        <com.mooc.ppjoke.view.PPImageView
+        <com.hc.hcppjoke.view.HCImageView
             android:id="@+id/author_avatar"
             android:layout_width="@dimen/dp_40"
             android:layout_height="@dimen/dp_40"
@@ -47,7 +47,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/icon_splash_text"></com.mooc.ppjoke.view.PPImageView>
+            tools:src="@drawable/exo_icon_stop"></com.hc.hcppjoke.view.HCImageView>
 
         <TextView
             android:id="@+id/author_name"

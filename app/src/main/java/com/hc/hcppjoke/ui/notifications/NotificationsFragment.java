@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.hc.hcppjoke.R;
 import com.hc.libnavannotation.FragmentDestination;
 
-@FragmentDestination(pageUrl =  "main/tabs/my",asStarter = false)
+@FragmentDestination(pageUrl =  "main/tabs/notification",asStarter = false)
 public class NotificationsFragment extends Fragment {
 
 
