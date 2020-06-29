@@ -85,15 +85,20 @@ public class HomeViewModel extends AbsViewModel<Feed> {
                 .addParam("userId", UserManager.get().getUserId())
                 .addParam("feedId", key)
                 .addParam("pageCount", count)
+                //同步请求需要加 type
                 .responseType(new TypeReference<ArrayList<Feed>>() {
                 }.getType());
 
+        //withCache 表示是否缓存
         if (witchCache) {
             request.cacheStrategy(Request.CACHE_ONLY);
             request.execute(new JsonCallback<List<Feed>>() {
                 @Override
                 public void onCacheSuccess(ApiResponse<List<Feed>> response) {
                     Log.e("loadData", "onCacheSuccess: ");
+
+                    ///缓存如何更新到界面上面(重点)
+
                     MutablePageKeyedDataSource dataSource = new MutablePageKeyedDataSource<Feed>();
                     dataSource.data.addAll(response.body);
 
@@ -111,11 +116,14 @@ public class HomeViewModel extends AbsViewModel<Feed> {
 
         try {
             Request netRequest = witchCache ? request.clone() : request;
+            //设置缓存策略
             netRequest.cacheStrategy(key == 0 ? Request.NET_CACHE : Request.NET_ONLY);
             ApiResponse<List<Feed>> response = netRequest.execute();
             List<Feed> data = response.body == null ? Collections.emptyList() : response.body;
 
+            //回调结果
             callback.onResult(data);
+
 
             if (key > 0) {
                 //通过BoundaryPageData发送数据 告诉UI层 是否应该主动关闭上拉加载分页的动画

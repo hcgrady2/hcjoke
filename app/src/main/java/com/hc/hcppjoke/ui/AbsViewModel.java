@@ -23,15 +23,19 @@ public abstract class AbsViewModel<T> extends ViewModel {
                 .setPageSize(10)
                 .setInitialLoadSizeHint(12)
                 // .setMaxSize(100)；
-                // .setEnablePlaceholders(false)
-                // .setPrefetchDistance()
+                // .setEnablePlaceholders(false)   //占位符
+                // .setPrefetchDistance()          //距离屏幕多少的时候，就去加载数据
                 .build();
+
+
 
         pageData = new LivePagedListBuilder(factory, config)
                 .setInitialLoadKey(0)
-                //.setFetchExecutor()
+                //.setFetchExecutor()           //设置线程池
                 .setBoundaryCallback(callback)
                 .build();
+
+
     }
 
 
@@ -80,7 +84,10 @@ public abstract class AbsViewModel<T> extends ViewModel {
         }
     };
 
+    //子类实现，创建实例
     public abstract DataSource createDataSource();
+
+
 
 
     //可以在这个方法里 做一些清理 的工作

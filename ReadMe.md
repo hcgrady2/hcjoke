@@ -185,5 +185,28 @@ BindingAdapter注解
 BindingAdapter 和 static 方法中参数必须一一对应。
 
 
+### 四、其他
+
+paging 的 DiffUtil 原理是 Myers 差分算法。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+todo:
+1、我的页面在未登录状态下，显示不对
+2、paging demo
+3、后台部署
+
+
 
 
