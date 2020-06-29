@@ -24,6 +24,10 @@ import com.hc.hcppjoke.view.ListPlayerView;
 import com.hc.libcommon.extention.AbsPagedListAdapter;
 import com.hc.libcommon.extention.LiveDataBus;
 
+
+/**
+ * 首页 adapter
+ */
 public class FeedAdapter extends AbsPagedListAdapter<Feed, FeedAdapter.ViewHolder> {
     private final LayoutInflater inflater;
     protected Context mContext;
@@ -33,6 +37,8 @@ public class FeedAdapter extends AbsPagedListAdapter<Feed, FeedAdapter.ViewHolde
         super(new DiffUtil.ItemCallback<Feed>() {
             @Override
             public boolean areItemsTheSame(@NonNull Feed oldItem, @NonNull Feed newItem) {
+
+                //比较两个 item 是否相同
                 return oldItem.id == newItem.id;
             }
 

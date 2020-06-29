@@ -66,6 +66,12 @@ public class Feed extends BaseObservable implements Serializable {
         return author;
     }
 
+
+    /**
+     * 重写 equals 方法
+     * @param obj
+     * @return
+     */
     @Override
     public boolean equals(@Nullable Object obj) {
         if (obj == null || !(obj instanceof Feed))

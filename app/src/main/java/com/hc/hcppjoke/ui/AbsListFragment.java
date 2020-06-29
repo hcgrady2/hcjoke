@@ -39,20 +39,32 @@ public abstract class AbsListFragment<T, M extends AbsViewModel<T>> extends Frag
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        //databing
+
         binding = LayoutRefreshViewBinding.inflate(inflater, container, false);
         binding.getRoot().setFitsSystemWindows(true);
         mRecyclerView = binding.recyclerView;
         mRefreshLayout = binding.refreshLayout;
         mEmptyView = binding.emptyView;
 
+
+        //refreshLayout 事件处理
         mRefreshLayout.setEnableRefresh(true);
         mRefreshLayout.setEnableLoadMore(true);
         mRefreshLayout.setOnRefreshListener(this);
         mRefreshLayout.setOnLoadMoreListener(this);
 
+
+
         adapter = getAdapter();
+
+
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+
+
+        //不要列表动画
         mRecyclerView.setItemAnimator(null);
 
         //默认给列表中的Item 一个 10dp的ItemDecoration
@@ -92,6 +104,9 @@ public abstract class AbsListFragment<T, M extends AbsViewModel<T>> extends Frag
         finishRefresh(result.size() > 0);
     }
 
+
+
+
     public void finishRefresh(boolean hasData) {
         PagedList<T> currentList = adapter.getCurrentList();
         hasData = hasData || currentList != null && currentList.size() > 0;
@@ -107,7 +122,10 @@ public abstract class AbsListFragment<T, M extends AbsViewModel<T>> extends Frag
         } else {
             mEmptyView.setVisibility(View.VISIBLE);
         }
+
     }
+
+
 
     /**
      * 因而 我们在 onCreateView的时候 创建了 PagedListAdapter

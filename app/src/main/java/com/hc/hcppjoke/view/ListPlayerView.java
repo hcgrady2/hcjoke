@@ -28,7 +28,7 @@ import com.hc.libcommon.utils.PixUtils;
 
 
 /**
- * 列表视频播放专用
+ * 列表视频播放专用 自定义 View
  */
 public class ListPlayerView extends FrameLayout implements IPlayTarget, PlayerControlView.VisibilityListener, Player.EventListener {
     public View bufferView;
@@ -84,6 +84,7 @@ public class ListPlayerView extends FrameLayout implements IPlayTarget, PlayerCo
         return true;
     }
 
+    //
     public void bindData(String category, int widthPx, int heightPx, String coverUrl, String videoUrl) {
         mCategory = category;
         mVideoUrl = videoUrl;
@@ -111,6 +112,8 @@ public class ListPlayerView extends FrameLayout implements IPlayTarget, PlayerCo
 
         int coverWidth;
         int coverHeight;
+
+        //处理高度和宽度不同情况
         if (widthPx >= heightPx) {
             coverWidth = maxWidth;
             layoutHeight = coverHeight = (int) (heightPx / (widthPx * 1.0f / maxWidth));

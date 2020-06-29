@@ -184,3 +184,6 @@ dataBinding{
 BindingAdapter注解
 BindingAdapter 和 static 方法中参数必须一一对应。
 
+
+
+

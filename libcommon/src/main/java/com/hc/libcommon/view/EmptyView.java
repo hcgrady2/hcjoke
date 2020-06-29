@@ -41,6 +41,9 @@ public class EmptyView extends LinearLayout {
     }
 
     public EmptyView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int style) {
+
+
+
         super(context, attrs, defStyleAttr, style);
         setOrientation(VERTICAL);
         setGravity(Gravity.CENTER);
