@@ -72,7 +72,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 tencent.setOpenId(openid);
                 tencent.setAccessToken(access_token, expires_in);
                 QQToken qqToken = tencent.getQQToken();
+
+
+                //获取用户信息
                 getUserInfo(qqToken, expires_time, openid);
+
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -90,6 +95,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     };
 
     private void getUserInfo(QQToken qqToken, long expires_time, String openid) {
+        //获取用户信息
         UserInfo userInfo = new UserInfo(getApplicationContext(), qqToken);
         userInfo.getUserInfo(new IUiListener() {
             @Override
@@ -99,7 +105,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 try {
                     String nickname = response.getString("nickname");
                     String figureurl_2 = response.getString("figureurl_2");
-
+                    //保存本地。
                     save(nickname, figureurl_2, openid, expires_time);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -131,6 +137,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             UserManager.get().save(response.body);
                             finish();
                         } else {
+                            //切换到主线程
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {

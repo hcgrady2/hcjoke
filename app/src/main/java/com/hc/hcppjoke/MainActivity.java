@@ -2,13 +2,14 @@ package com.hc.hcppjoke;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.UserManager;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hc.hcppjoke.model.Destination;
+import com.hc.hcppjoke.model.User;
+import com.hc.hcppjoke.ui.login.UserManager;
 import com.hc.hcppjoke.utils.AppConfig;
 import com.hc.hcppjoke.utils.NavGraphBuilder;
 import com.hc.hcppjoke.view.AppBottomBar;
@@ -17,11 +18,10 @@ import com.hc.libcommon.utils.StatusBar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -72,13 +72,27 @@ public class MainActivity extends AppCompatActivity   implements BottomNavigatio
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-//        HashMap<String, Destination> destConfig = AppConfig.getDestConfig();
-//        Iterator<Map.Entry<String, Destination>> iterator = destConfig.entrySet().iterator();
-//        //遍历 target destination 是否需要登录拦截
-//        while (iterator.hasNext()) {
-//            Map.Entry<String, Destination> entry = iterator.next();
-//            Destination value = entry.getValue();
-//        }
+
+        //登陆拦截
+        HashMap<String, Destination> destConfig = AppConfig.getDestConfig();
+        Iterator<Map.Entry<String, Destination>> iterator = destConfig.entrySet().iterator();
+        //遍历 target destination 是否需要登录拦截
+        while (iterator.hasNext()) {
+            Map.Entry<String, Destination> entry = iterator.next();
+            Destination value = entry.getValue();
+            if (value != null && !UserManager.get().isLogin() && value.needLogin && value.id == menuItem.getItemId()) {
+                UserManager.get().login(this).observe(this, new Observer<User>() {
+                    @Override
+                    public void onChanged(User user) {
+                        if (user != null) {
+                            navView.setSelectedItemId(menuItem.getItemId());
+                        }
+                    }
+                });
+                return false;
+            }
+        }
+
 
         navController.navigate(menuItem.getItemId());
         return !TextUtils.isEmpty(menuItem.getTitle());

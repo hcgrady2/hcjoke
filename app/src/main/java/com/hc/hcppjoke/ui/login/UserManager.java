@@ -38,7 +38,10 @@ public class UserManager {
     public void save(User user) {
         mUser = user;
         CacheManager.save(KEY_CACHE_USER, user);
+        //判断是否有注册观察者
         if (getUserLiveData().hasObservers()) {
+            //通过 livedata 通知调用方
+            //有可能主线程，也可能是自线程
             getUserLiveData().postValue(user);
         }
     }
@@ -52,6 +55,7 @@ public class UserManager {
         return getUserLiveData();
     }
 
+    //是否登陆
     public boolean isLogin() {
         return mUser == null ? false : mUser.expires_time > System.currentTimeMillis();
     }
