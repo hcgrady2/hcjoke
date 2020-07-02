@@ -72,7 +72,15 @@ public class Ugc extends BaseObservable implements Serializable {
             likeCount = likeCount - 1;
         }
         this.hasLiked = hasLiked;
+
+
+        /**
+         * layout 引入 varible ，databing 就会自动生成 BR
+         */
+        //属性改变，重新进行数据绑定。
         notifyPropertyChanged(BR._all);
+
+
     }
 
 
@@ -89,6 +97,10 @@ public class Ugc extends BaseObservable implements Serializable {
                 && hasdiss == newUgc.hasdiss;
     }
 
+    /**
+     * bindable 注解表示可绑定
+     * @return
+     */
     @Bindable
     public boolean isHasFavorite() {
         return hasFavorite;

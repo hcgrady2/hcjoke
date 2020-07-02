@@ -28,6 +28,10 @@ import com.hc.libnetwork.JsonCallback;
 
 import org.jetbrains.annotations.NotNull;
 
+
+/**
+ * 点赞等行为
+ */
 public class InteractionPresenter {
 
     public static final String DATA_FROM_INTERACTION = "data_from_interaction";
@@ -60,6 +64,7 @@ public class InteractionPresenter {
                 .execute(new JsonCallback<JSONObject>() {
                     @Override
                     public void onSuccess(ApiResponse<JSONObject> response) {
+                        //点赞之后，通过 livedata 改变效果
                         if (response.body != null) {
                             boolean hasLiked = response.body.getBoolean("hasLiked").booleanValue();
                             feed.getUgc().setHasLiked(hasLiked);

@@ -9,6 +9,7 @@
     </style>
 
 
+<!--    圆角属性-->
     <declare-styleable name="viewOutLineStrategy">
         <attr name="clip_radius" format="dimension"></attr>
         <attr name="clip_side" format="enum">

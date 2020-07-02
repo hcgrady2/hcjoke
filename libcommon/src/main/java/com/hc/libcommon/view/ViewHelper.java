@@ -18,17 +18,30 @@ import com.mooc.libcommon.R;
 
 public class ViewHelper {
 
+
+    /**
+     * 设置圆角
+     */
     public static final int RADIUS_ALL = 0;
     public static final int RADIUS_LEFT = 1;
     public static final int RADIUS_TOP = 2;
     public static final int RADIUS_RIGHT = 3;
     public static final int RADIUS_BOTTOM = 4;
 
+    /**
+     *  解析 view 的属性
+     * @param view
+     * @param attributes
+     * @param defStyleAttr
+     * @param defStyleRes
+     */
     public static void setViewOutline(View view, AttributeSet attributes, int defStyleAttr, int defStyleRes) {
         TypedArray array = view.getContext().obtainStyledAttributes(attributes, R.styleable.viewOutLineStrategy, defStyleAttr, defStyleRes);
         int radius = array.getDimensionPixelSize(R.styleable.viewOutLineStrategy_clip_radius, 0);
+        //哪一边需要圆角
         int hideSide = array.getInt(R.styleable.viewOutLineStrategy_clip_side, 0);
         array.recycle();
+        //设置圆角
         setViewOutline(view, radius, hideSide);
     }
 
@@ -46,6 +59,7 @@ public class ViewHelper {
                     int left = 0, top = 0, right = w, bottom = h;
                     if (radiusSide == RADIUS_LEFT) {
                         right += radius;
+                        //左边需要圆角，就让右边不裁剪
                     } else if (radiusSide == RADIUS_TOP) {
                         bottom += radius;
                     } else if (radiusSide == RADIUS_RIGHT) {

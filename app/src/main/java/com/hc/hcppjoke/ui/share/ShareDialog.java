@@ -67,12 +67,15 @@ public class ShareDialog extends AlertDialog {
         layout.addView(gridView, params);
 
         setContentView(layout);
+        //从底部弹出
         getWindow().setGravity(Gravity.BOTTOM);
-
+        //设置宽高和尺寸
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
+
         queryShareItems();
+
 
     }
 
@@ -85,6 +88,10 @@ public class ShareDialog extends AlertDialog {
         mListener = listener;
     }
 
+
+    /**
+     * 查询分享入口
+     */
     private void queryShareItems() {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
@@ -94,6 +101,7 @@ public class ShareDialog extends AlertDialog {
         List<ResolveInfo> resolveInfos = getContext().getPackageManager().queryIntentActivities(intent, 0);
         for (ResolveInfo resolveInfo : resolveInfos) {
             String packageName = resolveInfo.activityInfo.packageName;
+            //只 保留 微信 和 qq
             if (TextUtils.equals(packageName, "com.tencent.mm") || TextUtils.equals(packageName, "com.tencent.mobileqq")) {
                 shareitems.add(resolveInfo);
             }

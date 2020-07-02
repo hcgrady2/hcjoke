@@ -9,8 +9,8 @@ import androidx.annotation.Nullable;
 
 /**
  * Created by hcw  on 2020/6/11
- * 类描述：
- * all rights reserved
+ * 类描述： 自定义 view  实现圆角
+  * all rights reserved
  */
 public class CornerFrameLayout extends FrameLayout {
     public CornerFrameLayout(@NonNull Context context) {

@@ -193,17 +193,19 @@ paging 的 DiffUtil 原理是 Myers 差分算法。
 
 
 
+### 五、分享面板
+1、分享面板上的菜单是通过 packagemanger 解析已安装应用来获取的。
 
 
+2、AlertDialog 需要 AndroidX 下的。
 
 
-
+3、
 
 
 
 
 todo:
-1、我的页面在未登录状态下，显示不对
 2、paging demo
 3、后台部署
 
