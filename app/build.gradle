@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -11,13 +13,65 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
+    signingConfigs {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            try {
+                storeFile file("./keystore/hcc.jks")
+                storePassword "HC2019"
+                keyAlias "hcc"
+                keyPassword "HC2019"
+            } catch (ex) {
+                throw new InvalidUserDataException(ex.toString())
+            }
+        }
+
+        debug {
+            try {
+                storeFile file("./keystore/hcc.jks")
+                storePassword "HC2019"
+                keyAlias "hcc"
+                keyPassword "HC2019"
+            } catch (ex) {
+                throw new InvalidUserDataException(ex.toString())
+            }
         }
     }
 
+
+    buildTypes {
+        release {
+            //   minifyEnabled true
+            signingConfig signingConfigs.release
+            //  proguardFiles getDefaultProguardFile('proguard-android.txt'), project.file('proguard-rules.pro')
+
+            // 混淆开关
+            minifyEnabled false
+            // 是否zip对齐
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources false
+            // 是否打开debuggable开关
+            debuggable false
+            // 是否打开jniDebuggable开关
+            jniDebuggable false
+            // 混淆配置文件
+            proguardFile 'proguard-rules.pro'
+            //
+//
+            ndk {
+                abiFilters 'armeabi-v7a' //, 'armeabi', 'x86_64', 'arm64-v8a', 'mips', 'mips64'
+            }
+        }
+        debug {
+            debuggable true
+            minifyEnabled false
+            signingConfig signingConfigs.release
+
+            ndk {
+                abiFilters 'armeabi' , 'armeabi-v7a', 'x86_64', 'arm64-v8a', 'mips', 'mips64'
+            }
+        }
+    }
 
     //指定源码编译时 jdk 版本
     compileOptions {
