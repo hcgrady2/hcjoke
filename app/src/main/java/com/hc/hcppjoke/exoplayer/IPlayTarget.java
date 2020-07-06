@@ -4,6 +4,10 @@ import android.view.ViewGroup;
 
 public interface IPlayTarget {
 
+    /**
+     * 获取视频的外部容器
+     * @return
+     */
     ViewGroup getOwner();
 
     //活跃状态 视频可播放

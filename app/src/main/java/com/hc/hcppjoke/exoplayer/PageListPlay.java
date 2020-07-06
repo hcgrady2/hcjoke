@@ -13,6 +13,10 @@ import com.google.android.exoplayer2.ui.PlayerView;
 import com.hc.hcppjoke.R;
 import com.hc.libcommon.global.AppGlobals;
 
+
+/**
+ *  视频播放
+ */
 public class PageListPlay {
     public SimpleExoPlayer exoPlayer;
     public PlayerView playerView;
@@ -33,15 +37,22 @@ public class PageListPlay {
         //加载咱们布局层级优化之后的能够展示视频画面的View
         playerView = (PlayerView) LayoutInflater.from(application).inflate(R.layout.layout_exo_player_view, null, false);
 
+
         //加载咱们布局层级优化之后的视频播放控制器
         controlView = (PlayerControlView) LayoutInflater.from(application).inflate(R.layout.layout_exo_player_contorller_view, null, false);
+
 
         //别忘记 把播放器实例 和 playerView，controlView相关联
         //如此视频画面才能正常显示,播放进度条才能自动更新
         playerView.setPlayer(exoPlayer);
         controlView.setPlayer(exoPlayer);
+
+
     }
 
+    /**
+     * 释放避免内存泄露
+     */
     public void release() {
 
         if (exoPlayer != null) {

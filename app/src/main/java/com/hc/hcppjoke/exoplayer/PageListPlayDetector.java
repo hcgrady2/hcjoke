@@ -34,6 +34,9 @@ public class PageListPlayDetector {
     public PageListPlayDetector(LifecycleOwner owner, RecyclerView recyclerView) {
         mRecyclerView = recyclerView;
 
+        /**
+         * 生命周期监听
+         */
         owner.getLifecycle().addObserver(new LifecycleEventObserver() {
             @Override
             public void onStateChanged(@NonNull LifecycleOwner source, @NonNull Lifecycle.Event event) {
@@ -95,6 +98,12 @@ public class PageListPlayDetector {
         }
     };
 
+    /**
+     * 判断是否能够自动播放，
+     * 1、有视频组件
+     * 2、添加到了集合里
+     * 3、至少一半显示在屏幕上
+     */
     private void autoPlay() {
         if (mTargets.size() <= 0 || mRecyclerView.getChildCount() <= 0) {
             return;
@@ -116,6 +125,7 @@ public class PageListPlayDetector {
 
         if (activeTarget != null) {
             if (playingTarget != null) {
+                //上一个关掉
                 playingTarget.inActive();
             }
             playingTarget = activeTarget;
@@ -132,6 +142,10 @@ public class PageListPlayDetector {
     private boolean isTargetInBounds(IPlayTarget target) {
         ViewGroup owner = target.getOwner();
         ensureRecyclerViewLocation();
+
+        /**
+         * 没有展示或者没有关联到 window 上
+         */
         if (!owner.isShown() || !owner.isAttachedToWindow()) {
             return false;
         }
@@ -139,6 +153,7 @@ public class PageListPlayDetector {
         int[] location = new int[2];
         owner.getLocationOnScreen(location);
 
+        //计算中心点在屏幕上的位置
         int center = location[1] + owner.getHeight() / 2;
 
         //承载视频播放画面的ViewGroup它需要至少一半的大小 在RecyclerView上下范围内

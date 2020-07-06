@@ -59,6 +59,11 @@ public class PageListPlayManager {
 
     }
 
+    /**
+     * 根据视频 URL 创建 MediaSource
+     * @param url
+     * @return
+     */
     public static MediaSource createMediaSource(String url) {
         return mediaSourceFactory.createMediaSource(Uri.parse(url));
     }
@@ -72,6 +77,10 @@ public class PageListPlayManager {
         return pageListPlay;
     }
 
+    /**
+     * 释放资源
+     * @param pageName
+     */
     public static void release(String pageName) {
         PageListPlay pageListPlay = sPageListPlayHashMap.remove(pageName);
         if (pageListPlay != null) {
