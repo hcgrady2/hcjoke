@@ -16,7 +16,7 @@ import android.view.WindowManager;
 public class StatusBar {
     /**
      * 6.0级以上的沉浸式布局
-     *
+     *         android:fitsSystemWindows="true"
      * @param activity
      */
     public static void fitSystemBar(Activity activity) {

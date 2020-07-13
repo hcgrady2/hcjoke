@@ -33,7 +33,7 @@ import java.util.List;
 
 /**
  * Created by hcw  on 2020/6/1
- * 类描述：
+ * 类描述：沙发页面可以根据帖子类型来展示 Feed
  * all rights reserved
  */
 
@@ -48,9 +48,9 @@ public class SofaFragment extends Fragment {
     //private Map<Integer, Fragment> mFragmentMap = new HashMap<>();
     private TabLayoutMediator mediator;
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
         binding = FragmentSofaBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -67,7 +67,7 @@ public class SofaFragment extends Fragment {
             }
         }
 
-        //限制页面预加载
+        //限制页面预加载(禁止掉了)
         viewPager2.setOffscreenPageLimit(ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
         //viewPager2默认只有一种类型的Adapter。FragmentStateAdapter
         //并且在页面切换的时候 不会调用子Fragment的setUserVisibleHint ，取而代之的是onPause(),onResume()、
@@ -99,16 +99,21 @@ public class SofaFragment extends Fragment {
         mediator = new TabLayoutMediator(tabLayout, viewPager2, true, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                //创建自定义 TabView
                 tab.setCustomView(makeTabView(position));
             }
         });
+        //和 pageAdapter  联动
         mediator.attach();
-
+        //设置回调
         viewPager2.registerOnPageChangeCallback(mPageChangeCallback);
         //切换到默认选择项,那当然要等待初始化完成之后才有效
         viewPager2.post(() -> viewPager2.setCurrentItem(tabConfig.select, false));
     }
 
+    /**
+     * 设置文本颜色和文字大小的变更
+     */
     ViewPager2.OnPageChangeCallback mPageChangeCallback = new ViewPager2.OnPageChangeCallback() {
         @Override
         public void onPageSelected(int position) {
@@ -128,6 +133,11 @@ public class SofaFragment extends Fragment {
         }
     };
 
+    /**
+     * 设置文本颜色和大小
+     * @param position
+     * @return
+     */
     private View makeTabView(int position) {
         TextView tabView = new TextView(getContext());
         int[][] states = new int[2][];
@@ -166,6 +176,7 @@ public class SofaFragment extends Fragment {
     @Override
     public void onDestroy() {
         mediator.detach();
+        //销毁
         viewPager2.unregisterOnPageChangeCallback(mPageChangeCallback);
         super.onDestroy();
     }

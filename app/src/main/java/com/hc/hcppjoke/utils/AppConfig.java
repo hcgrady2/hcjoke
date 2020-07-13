@@ -47,6 +47,7 @@ public class AppConfig {
         if (sSofaTab == null) {
             String content = parseFile("sofa_tabs_config.json");
             sSofaTab = JSON.parseObject(content, SofaTab.class);
+            //排序
             Collections.sort(sSofaTab.tabs, new Comparator<SofaTab.Tabs>() {
                 @Override
                 public int compare(SofaTab.Tabs o1, SofaTab.Tabs o2) {
