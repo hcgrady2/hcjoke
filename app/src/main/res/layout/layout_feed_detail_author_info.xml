@@ -9,10 +9,12 @@
             name="feed"
             type="com.hc.hcppjoke.model.Feed" />
 
+<!--        布局左边距-->
         <variable
             name="leftMargin"
             type="java.lang.Integer" />
 
+<!--        是否全屏-->
         <variable
             name="fullscreen"
             type="java.lang.Boolean" />
@@ -37,6 +39,7 @@
         android:paddingBottom="@dimen/dp_3">
 
 
+
         <com.hc.hcppjoke.view.HCImageView
             android:id="@+id/author_avatar"
             android:layout_width="@dimen/dp_40"
@@ -48,6 +51,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/exo_icon_stop"></com.hc.hcppjoke.view.HCImageView>
+
+
 
         <TextView
             android:id="@+id/author_name"

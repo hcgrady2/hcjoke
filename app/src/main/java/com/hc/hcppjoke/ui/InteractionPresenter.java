@@ -184,7 +184,7 @@ public class InteractionPresenter {
                 });
     }
 
-    //收藏/取消收藏一个帖子
+    //收藏/取消收藏一个帖子(需要判断是否登陆)
     public static void toggleFeedFavorite(LifecycleOwner owner, Feed feed) {
         if (!isLogin(owner, new Observer<User>() {
             @Override
@@ -352,6 +352,10 @@ public class InteractionPresenter {
                 });
     }
 
+    /**
+     * 转到主线程
+     * @param message
+     */
     private static void showToast(String message) {
         ArchTaskExecutor.getMainThreadExecutor().execute(new Runnable() {
             @Override

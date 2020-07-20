@@ -28,6 +28,8 @@ public class FeedDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //无论是图文还是视频，都要先读取 feed
         Feed feed = (Feed) getIntent().getSerializableExtra(KEY_FEED);
         if (feed == null) {
             finish();
@@ -39,7 +41,7 @@ public class FeedDetailActivity extends AppCompatActivity {
         } else {
             viewHandler = new VideoViewHandler(this);
         }
-
+        //绑定初始化数据
         viewHandler.bindInitData(feed);
     }
 

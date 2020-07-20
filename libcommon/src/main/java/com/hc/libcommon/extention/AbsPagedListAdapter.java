@@ -45,6 +45,7 @@ public abstract class AbsPagedListAdapter<T, VH extends RecyclerView.ViewHolder>
 
     public void addFooterView(View view) {
         //判断给View对象是否还没有处在mFooters数组里面
+        //判断是否已经存储
         if (mFooters.indexOfValue(view) < 0) {
             mFooters.put(BASE_ITEM_TYPE_FOOTER++, view);
             notifyDataSetChanged();
@@ -78,6 +79,7 @@ public abstract class AbsPagedListAdapter<T, VH extends RecyclerView.ViewHolder>
     @Override
     public int getItemCount() {
         int itemCount = super.getItemCount();
+        //原始数据大小 + header + footer
         return itemCount + mHeaders.size() + mFooters.size();
     }
 
@@ -87,16 +89,20 @@ public abstract class AbsPagedListAdapter<T, VH extends RecyclerView.ViewHolder>
 
     @Override
     public int getItemViewType(int position) {
+        //如果是 header ，则需要拦截掉
         if (isHeaderPosition(position)) {
             //返回该position对应的headerview的  viewType
             return mHeaders.keyAt(position);
         }
 
+        //footer 拦截
         if (isFooterPosition(position)) {
             //footer类型的，需要计算一下它的position实际大小
             position = position - getOriginalItemCount() - mHeaders.size();
             return mFooters.keyAt(position);
         }
+
+        //交由子类实现
         position = position - mHeaders.size();
         return getItemViewType2(position);
     }
@@ -136,8 +142,9 @@ public abstract class AbsPagedListAdapter<T, VH extends RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
-        if (isHeaderPosition(position) || isFooterPosition(position))
+        if (isHeaderPosition(position) || isFooterPosition(position)) {
             return;
+        }
         //列表中正常类型的itemView的 position 咱们需要减去添加headerView的个数
         position = position - mHeaders.size();
         onBindViewHolder2(holder, position);
@@ -169,7 +176,7 @@ public abstract class AbsPagedListAdapter<T, VH extends RecyclerView.ViewHolder>
 
     @Override
     public void registerAdapterDataObserver(@NonNull RecyclerView.AdapterDataObserver observer) {
-        super.registerAdapterDataObserver(new AdapterDataObserverProxy(observer));
+        super.registerAdapterDataObserver(new AdapterDataObserverProxy(observer));//代理
     }
 
     //如果我们先添加了headerView,而后网络数据回来了再更新到列表上
@@ -183,26 +190,32 @@ public abstract class AbsPagedListAdapter<T, VH extends RecyclerView.ViewHolder>
             mObserver = observer;
         }
 
+        @Override
         public void onChanged() {
             mObserver.onChanged();
         }
 
+        @Override
         public void onItemRangeChanged(int positionStart, int itemCount) {
             mObserver.onItemRangeChanged(positionStart + mHeaders.size(), itemCount);
         }
 
+        @Override
         public void onItemRangeChanged(int positionStart, int itemCount, @Nullable Object payload) {
             mObserver.onItemRangeChanged(positionStart + mHeaders.size(), itemCount, payload);
         }
 
+        @Override
         public void onItemRangeInserted(int positionStart, int itemCount) {
             mObserver.onItemRangeInserted(positionStart + mHeaders.size(), itemCount);
         }
 
+        @Override
         public void onItemRangeRemoved(int positionStart, int itemCount) {
             mObserver.onItemRangeRemoved(positionStart + mHeaders.size(), itemCount);
         }
 
+        @Override
         public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
             mObserver.onItemRangeMoved(fromPosition + mHeaders.size(), toPosition + mHeaders.size(), itemCount);
         }

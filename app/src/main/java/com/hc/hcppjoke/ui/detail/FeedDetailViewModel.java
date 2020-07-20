@@ -28,6 +28,7 @@ public class FeedDetailViewModel extends AbsViewModel<Comment> {
         this.itemId = itemId;
     }
 
+    //todo ，ItemKeyedDataSource 分页学习
     class DataSource extends ItemKeyedDataSource<Integer, Comment> {
 
         @Override
@@ -42,6 +43,12 @@ public class FeedDetailViewModel extends AbsViewModel<Comment> {
             }
         }
 
+        /**
+         *  请求数据（同步请求）
+         * @param key
+         * @param requestedLoadSize
+         * @param callback
+         */
         private void loadData(Integer key, int requestedLoadSize, LoadCallback<Comment> callback) {
             ApiResponse<List<Comment>> response = ApiService.get("/comment/queryFeedComments")
                     .addParam("id", key)

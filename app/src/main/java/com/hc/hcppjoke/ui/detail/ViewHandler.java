@@ -21,7 +21,9 @@ import com.hc.libcommon.utils.PixUtils;
 import com.hc.libcommon.view.EmptyView;
 
 
-
+/**
+ * 图文详情页和视频详情页共同部分
+ */
 public abstract class ViewHandler {
     private final FeedDetailViewModel viewModel;
     protected FragmentActivity mActivity;
@@ -38,6 +40,7 @@ public abstract class ViewHandler {
     }
 
 
+    //view 的数据初始化
     @CallSuper
     public void bindInitData(Feed feed) {
         mInateractionBinding.setOwner(mActivity);
@@ -57,7 +60,9 @@ public abstract class ViewHandler {
         viewModel.getPageData().observe(mActivity, new Observer<PagedList<Comment>>() {
             @Override
             public void onChanged(PagedList<Comment> comments) {
+                //提交数据，数据才能展示到列表上
                 listAdapter.submitList(comments);
+                //处理空情况
                 handleEmpty(comments.size() > 0);
             }
         });
@@ -85,6 +90,7 @@ public abstract class ViewHandler {
     public void handleEmpty(boolean hasData) {
         if (hasData) {
             if (mEmptyView != null) {
+                //隐藏
                 listAdapter.removeHeaderView(mEmptyView);
             }
         } else {

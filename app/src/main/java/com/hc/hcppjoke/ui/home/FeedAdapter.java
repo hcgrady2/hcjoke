@@ -77,6 +77,7 @@ public class FeedAdapter extends AbsPagedListAdapter<Feed, FeedAdapter.ViewHolde
 
         holder.bindData(feed);
 
+        //图文详情点击进行跳转
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

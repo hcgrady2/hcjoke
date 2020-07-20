@@ -41,10 +41,14 @@ public class ImageViewHandler extends ViewHandler {
         super.bindInitData(feed);
         mImageBinding.setFeed(mFeed);
 
+
         mHeaderBinding = LayoutFeedDetailTypeImageHeaderBinding.inflate(LayoutInflater.from(mActivity), mRecyclerView, false);
         mHeaderBinding.setFeed(mFeed);
 
+
+
         HCImageView headerImage = mHeaderBinding.headerImage;
+        //头部数据绑定
         headerImage.bindData(mFeed.width, mFeed.height, mFeed.width > mFeed.height ? 0 : 16, mFeed.cover);
         listAdapter.addHeaderView(mHeaderBinding.getRoot());
 
@@ -53,7 +57,11 @@ public class ImageViewHandler extends ViewHandler {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 boolean visible = mHeaderBinding.getRoot().getTop() <= -mImageBinding.titleLayout.getMeasuredHeight();
+
+
                 mImageBinding.authorInfoLayout.getRoot().setVisibility(visible ? View.VISIBLE : View.GONE);
+
+
                 mImageBinding.title.setVisibility(visible ? View.GONE : View.VISIBLE);
 
             }
