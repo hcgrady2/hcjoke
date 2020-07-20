@@ -68,6 +68,8 @@ public class InteractionPresenter {
                         if (response.body != null) {
                             boolean hasLiked = response.body.getBoolean("hasLiked").booleanValue();
                             feed.getUgc().setHasLiked(hasLiked);
+
+                            //LiveDataBus 发送数据
                             LiveDataBus.get().with(DATA_FROM_INTERACTION)
                                     .postValue(feed);
                         }

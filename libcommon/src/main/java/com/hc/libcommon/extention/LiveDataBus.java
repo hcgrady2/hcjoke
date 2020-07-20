@@ -11,10 +11,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by hcw  on 2020/6/15
- * 类描述：
+ * 类描述：用于页面间通信
  * all rights reserved
  */
 
+
+/**
+ * LiveData 有一个优点是，当有活动的观察者，会触发
+ *
+ * 粘性事件：没有观察者，会把事件保存，有注册对象，再派发
+ */
 public class LiveDataBus {
 
 //
@@ -52,6 +58,7 @@ public class LiveDataBus {
         return Lazy.sLiveDataBus;
     }
 
+    //支持多线程
     private static ConcurrentHashMap<String, StickyLiveData> mHashMap = new ConcurrentHashMap<>();
 
     public StickyLiveData with(String eventName) {
@@ -101,6 +108,10 @@ public class LiveDataBus {
             setValue(stickyData);
         }
 
+        /**
+         * 发送粘性事件
+         * @param stickyData
+         */
         public void postStickyData(T stickyData) {
             this.mStickyData = stickyData;
             postValue(stickyData);

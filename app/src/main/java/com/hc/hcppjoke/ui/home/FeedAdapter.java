@@ -85,10 +85,13 @@ public class FeedAdapter extends AbsPagedListAdapter<Feed, FeedAdapter.ViewHolde
                 onStartFeedDetailActivity(feed);
                 if (mFeedObserver == null) {
                     mFeedObserver = new FeedObserver();
+
+                    //通过 LiveDataBus 观察事件
                     LiveDataBus.get()
                             .with(InteractionPresenter.DATA_FROM_INTERACTION)
                             .observe((LifecycleOwner) mContext, mFeedObserver);
                 }
+                //用新数据代替老数据
                 mFeedObserver.setFeed(feed);
             }
         });
