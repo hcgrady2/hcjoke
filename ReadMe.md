@@ -213,3 +213,59 @@ todo:
 
 
 
+### 七、WorkManager
+可以自动维护后台任务的执行时机，执行顺序和执行状态。
+
+比 Service 和 InterService 更轻量，兼容 api 14。
+
+支持异步、链式调用，同时支持搭配 liveData。
+
+
+支持任务执行次序，任务之间依赖关系。
+
+```
+WorkContinuation left,right;
+
+left = workManager.beginWith(A).then(B);
+right = workManager.beginWith(C).then(D);
+
+WorkContinuation.combine(Arrays.asList(left,right)).then(E).Enqueue(); 
+
+```
+
+
+####  任务状态：
+
++ BLOCKED
++ ENQUEUED
++ RUNNING (SUCCESSED,CANCELED,FAILED)
++ FINISHED
+
+
+#### 任务控制：
+
+cancelWorkById(UUID) : 取消一个
+
+cancelAllWokByTag(String): 通过 Tag 取消所有任务
+
+cancelUniqueWork(String) : 通过名字取消一个唯一任务
+
+
+#### 核心类
++ Worker
+抽象类，继承此类执行任务。
+
++ WorkRequest
+有两个子类，OneTimeWorkRequest 和 PeriodicWorkRequest，用来指定让哪个 Worker 执行任务，指定执行环境和执行顺序等。
+
++ WorkManager
+管理任务请求和任务队列，发起的 WorkRequeset 会进入它的任务队列。
+
+
++ WorkStatus
+包含任务的状态和任务的信息，以 LiveData 的形式提供给观察者。
+
+
+
+
+
