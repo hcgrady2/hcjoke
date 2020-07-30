@@ -24,6 +24,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
+<!--        实现根首滑动-->
         <com.hc.hcppjoke.view.FullScreenPlayerView
             android:id="@+id/player_view"
             android:layout_width="match_parent"

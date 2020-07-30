@@ -17,7 +17,9 @@ import com.hc.hcppjoke.R;
 import com.hc.hcppjoke.view.FullScreenPlayerView;
 import com.hc.libcommon.utils.PixUtils;
 
-
+/**
+ * 根首滑动
+ */
 public class ViewZoomBehavior extends CoordinatorLayout.Behavior<FullScreenPlayerView> {
     private OverScroller overScroller;
     private int minHeight;
@@ -35,7 +37,9 @@ public class ViewZoomBehavior extends CoordinatorLayout.Behavior<FullScreenPlaye
 
     public ViewZoomBehavior(Context context, AttributeSet attributeSet) {
         TypedArray array = context.obtainStyledAttributes(attributeSet, R.styleable.view_zoom_behavior, 0, 0);
+        //下方的滑动列表
         scrollingId = array.getResourceId(R.styleable.view_zoom_behavior_scrolling_id, 0);
+        //上方全屏视频的最小高度
         minHeight = array.getDimensionPixelOffset(R.styleable.view_zoom_behavior_min_height, PixUtils.dp2px(200));
         array.recycle();
 
@@ -54,6 +58,7 @@ public class ViewZoomBehavior extends CoordinatorLayout.Behavior<FullScreenPlaye
         // 与此同时 还需要计算出，当前页面是否可以进行视频的全屏展示，即h>w即可。
         if (viewDragHelper == null) {
             viewDragHelper = ViewDragHelper.create(parent, 1.0f, mCallback);
+
             this.scrollingView = parent.findViewById(scrollingId);
             this.refChild = child;
             this.childOriginalHeight = child.getMeasuredHeight();

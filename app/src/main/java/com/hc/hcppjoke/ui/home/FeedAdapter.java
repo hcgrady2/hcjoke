@@ -97,6 +97,8 @@ public class FeedAdapter extends AbsPagedListAdapter<Feed, FeedAdapter.ViewHolde
         });
     }
 
+
+    //首页需要
     public void onStartFeedDetailActivity(Feed feed) {
 
     }

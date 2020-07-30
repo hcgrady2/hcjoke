@@ -27,6 +27,8 @@ import com.hc.libcommon.utils.PixUtils;
  * 视频详情页全屏播放专用
  */
 public class FullScreenPlayerView extends ListPlayerView {
+
+    //
     private PlayerView exoPlayerView;
 
     public FullScreenPlayerView(@NonNull Context context) {
@@ -43,6 +45,7 @@ public class FullScreenPlayerView extends ListPlayerView {
 
     public FullScreenPlayerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        //通过 layout 来设置自定义属性
         exoPlayerView = (PlayerView) LayoutInflater.from(context).inflate(R.layout.layout_exo_player_view, null, false);
     }
 
@@ -53,6 +56,7 @@ public class FullScreenPlayerView extends ListPlayerView {
             return;
         }
 
+        //全屏播放需要屏幕宽高
         int maxWidth = PixUtils.getScreenWidth();
         int maxHeight = PixUtils.getScreenHeight();
 
@@ -95,6 +99,7 @@ public class FullScreenPlayerView extends ListPlayerView {
     @Override
     public void onActive() {
         PageListPlay pageListPlay = PageListPlayManager.get(mCategory);
+        //首页到详情页，必须先让播放器首页的先切断，再管理详情页的,见 PageListPlay
         PlayerView playerView = exoPlayerView;//pageListPlay.playerView;
         PlayerControlView controlView = pageListPlay.controlView;
         SimpleExoPlayer exoPlayer = pageListPlay.exoPlayer;

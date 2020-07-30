@@ -12,7 +12,11 @@ import com.hc.hcppjoke.R;
 import com.hc.libcommon.utils.PixUtils;
 
 
+/**
+ * 接管 View 的相对布局
+ */
 public class ViewAnchorBehavior extends CoordinatorLayout.Behavior<View> {
+    //底部互动区的高度，直接写死
     private int extraUsed;
     private int anchorId;
 
@@ -59,6 +63,7 @@ public class ViewAnchorBehavior extends CoordinatorLayout.Behavior<View> {
         //再测量子View时，需要告诉CoordinatorLayout。垂直方向上 已经有多少空间被占用了
         //如果heightUsed给0，那么评论列表这个view它测量出来的高度 将会大于它实际的高度。以至于会被底部互动区域给遮挡
         heightUsed = bottom + topMargin + extraUsed;
+        //只接管垂直方向
         parent.onMeasureChild(child, parentWidthMeasureSpec, 0, parentHeightMeasureSpec, heightUsed);
         return true;
     }

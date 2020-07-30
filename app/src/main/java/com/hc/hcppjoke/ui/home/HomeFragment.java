@@ -63,6 +63,7 @@ public class HomeFragment extends AbsListFragment<Feed, HomeViewModel> {
                 playDetector.removeTarget(holder.getListPlayerView());
             }
 
+            //来判断是否需要暂停视频
             @Override
             public void onStartFeedDetailActivity(Feed feed) {
                 boolean isVideo = feed.itemType == Feed.TYPE_VIDEO;

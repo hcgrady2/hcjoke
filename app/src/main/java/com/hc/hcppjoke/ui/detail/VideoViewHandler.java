@@ -33,6 +33,7 @@ public class VideoViewHandler extends ViewHandler {
 
         View authorInfoView = mVideoBinding.authorInfo.getRoot();
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) authorInfoView.getLayoutParams();
+        //通过构造函数传递 id
         params.setBehavior(new ViewAnchorBehavior(R.id.player_view));
 
         mVideoBinding.actionClose.setOnClickListener(new View.OnClickListener() {
@@ -57,11 +58,12 @@ public class VideoViewHandler extends ViewHandler {
 
     }
 
+    //bindInitData 设置数据
     @Override
     public void bindInitData(Feed feed) {
         super.bindInitData(feed);
         mVideoBinding.setFeed(feed);
-
+        //需要获取 category
         category = mActivity.getIntent().getStringExtra(FeedDetailActivity.KEY_CATEGORY);
         playerView.bindData(category, mFeed.width, mFeed.height, mFeed.cover, mFeed.url);
 
