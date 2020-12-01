@@ -1,5 +1,6 @@
 package com.hc.hcppjoke.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
@@ -24,7 +25,6 @@ import com.hc.libcommon.global.AppGlobals;
 import com.hc.libnetwork.ApiResponse;
 import com.hc.libnetwork.ApiService;
 import com.hc.libnetwork.JsonCallback;
-
 
 import org.jetbrains.annotations.NotNull;
 
@@ -358,6 +358,7 @@ public class InteractionPresenter {
      * 转到主线程
      * @param message
      */
+    @SuppressLint("RestrictedApi")
     private static void showToast(String message) {
         ArchTaskExecutor.getMainThreadExecutor().execute(new Runnable() {
             @Override
