@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity   implements BottomNavigatio
             Map.Entry<String, Destination> entry = iterator.next();
             Destination value = entry.getValue();
             if (value != null && !UserManager.get().isLogin() && value.needLogin && value.id == menuItem.getItemId()) {
+
                 UserManager.get().login(this).observe(this, new Observer<User>() {
                     @Override
                     public void onChanged(User user) {
@@ -89,6 +90,8 @@ public class MainActivity extends AppCompatActivity   implements BottomNavigatio
                         }
                     }
                 });
+
+
                 return false;
             }
         }

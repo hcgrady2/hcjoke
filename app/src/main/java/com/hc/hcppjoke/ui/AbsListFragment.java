@@ -41,7 +41,7 @@ public abstract class AbsListFragment<T, M extends AbsViewModel<T>> extends Frag
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         //databing
-
+        //使用第三方下拉刷新库，统一封装的 recyclewer
         binding = LayoutRefreshViewBinding.inflate(inflater, container, false);
         binding.getRoot().setFitsSystemWindows(true);
         mRecyclerView = binding.recyclerView;
@@ -73,6 +73,8 @@ public abstract class AbsListFragment<T, M extends AbsViewModel<T>> extends Frag
         mRecyclerView.addItemDecoration(decoration);
 
         genericViewModel();
+
+
         return binding.getRoot();
 
     }

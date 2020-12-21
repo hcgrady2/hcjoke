@@ -21,7 +21,13 @@ import java.util.Iterator;
 
 /**
  * Created by hcw  on 2020/5/30
- * 类描述：
+ * 类描述： 1、默认 repleace 会导致生命周期重新走一遍。
+ *
+ * 2、如果替换成定制的导航器，fragment切换时还能多次打印onCreateView日志。
+ * 请检查FixFragmentNavigate的navigate方法中ft.add(id%2Cfragment%2Ctag)+方法，有没有把tag传递进去。
+ *
+ * '
+ *
  * all rights reserved
  */
 
@@ -40,6 +46,7 @@ public class NavGraphBuilder {
         //这样就添加了自定义导航器
         provider.addNavigator(fragmentNavigator);
         ActivityNavigator activityNavigator = provider.getNavigator(ActivityNavigator.class);
+        //解析自定义的 json ，实现添加导航的功能
         HashMap<String, Destination> destConfig = AppConfig.getDestConfig();
         Iterator<Destination> iterator = destConfig.values().iterator();
         while (iterator.hasNext()) {

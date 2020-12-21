@@ -22,12 +22,20 @@ import java.util.List;
 
 /**
  * Created by hcw  on 2020/5/31
- * 类描述：
+ * 类描述： 封装了 BottomNavigationView，不用通过 xml 指定了
  * all rights reserved
  */
 
 public class AppBottomBar extends BottomNavigationView {
-    private static int[] sIcons = new int[]{R.drawable.icon_tab_home, R.drawable.icon_tab_sofa, R.drawable.icon_tab_publish, R.drawable.icon_tab_find, R.drawable.icon_tab_mine};
+    private static int[] sIcons = new int[]{
+            R.drawable.icon_tab_home,
+            R.drawable.icon_tab_sofa,
+            R.drawable.icon_tab_publish,
+            R.drawable.icon_tab_find,
+            R.drawable.icon_tab_mine
+    };
+
+
     private BottomBar config;
 
     public AppBottomBar(Context context) {
@@ -72,6 +80,7 @@ public class AppBottomBar extends BottomNavigationView {
             if (itemId < 0) {
                 continue;
             }
+            //通过这种方式就不用在 xml 里面指定了
             MenuItem menuItem = getMenu().add(0, itemId, tab.index, tab.title);
             menuItem.setIcon(sIcons[tab.index]);
         }

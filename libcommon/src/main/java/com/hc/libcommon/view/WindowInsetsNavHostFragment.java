@@ -11,7 +11,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 /**
  * Created by hcw  on 2020/6/15
- * 类描述： 自适应状态栏
+ * 类描述： 自适应状态栏,应该是调整了 windowInset 。
  * all rights reserved
  */
 public class WindowInsetsNavHostFragment extends NavHostFragment {

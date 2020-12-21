@@ -45,7 +45,7 @@ libnavcompiler 下新建 NavProcessro
 @FragmentDestination(pageUrl =  "main/tabs/home",asStarter = true)
 
 ```
-make project ，理论上会在 asstes 下生成文件。
+make project ，理论上会在 asstes 下生成文件。随便修改注解的名字，destination.json 这个文件会自动生成。
 
 
 
@@ -69,6 +69,8 @@ make project ，理论上会在 asstes 下生成文件。
 
 
 
+
+
 #### 4、定制 Fragment 导航器
 1、默认 repleace 会导致生命周期重新走一遍。
 
@@ -89,6 +91,10 @@ make project ，理论上会在 asstes 下生成文件。
 ```
 
 这样生命周期只初始化一次。
+
+
+
+
 
 
 
@@ -264,6 +270,301 @@ cancelUniqueWork(String) : 通过名字取消一个唯一任务
 
 + WorkStatus
 包含任务的状态和任务的信息，以 LiveData 的形式提供给观察者。
+
+
+
+
+
+### 总结复习
+根据注解生成了 destination.json 文件，里面保存了 pageUrl 和 name 。
+在 NavGraphBuilder 会解析这个 json 文件，将 url 和 Fragment 进行关联。
+
+```
+        FixFragmentNavigator.Destination destination = fragmentNavigator.createDestination();
+                destination.setId(node.id);
+                destination.setClassName(node.className);
+                destination.addDeepLink(node.pageUrl);
+                navGraph.addDestination(destination);
+                
+```
+
+
+
+#### 1、底部导航
+BottomNavigationVi  ew: 底部的导航
+
+NavHostFragment ： 跳转
+
+
+#### 2、databing
+启用 databing 之后，布局文件，就是  layout + data 标签的结构。
+data 标签可以指定数据 bean
+```
+<data>
+
+        <import type="PeopleBean"/>
+
+        <variable
+            name="data"
+            type="PeopleBean" />
+
+        <variable
+            name="data2"
+            type="PeopleBean" />
+
+        <variable
+            name="data3"
+            type="PeopleBean" />
+
+</data>
+```
+使用这个 bean:
+
+```
+            android:text="@{String.valueOf(data.age)}"
+
+```
+使用 databinding，并设置数据，设置的数据就会显示到界面上
+```
+ //实力化ActivityMainBinding
+        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
+        //实力化PeopleBean
+        peopleBean = new PeopleBean("NorthernBrain", 25);
+
+        //布局中variable标签中的name是data，所以这里是setData
+        activityMainBinding.setData(peopleBean);
+```
+
+赋值和使用默认值
+```
+activityMainBinding.textView2.setText("我是新的值");
+
+android:text="@{data.name,default = HelloWorld}"
+
+```
+
+databinding 的单向数据绑定，有三种方式：
+
+
++ BaseObservable
+
+
+```
+notifyPropertyChanged(); 只会刷新属于它的UI，就如代码，他只会更新name。
+notifyChange(); 会刷新所有UI
+
+
+public class PeopleBean extends BaseObservable {
+
+    @Bindable
+    public String name;
+
+    private int age;
+
+    public PeopleBean(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+        notifyPropertyChanged(BR.name);
+    }
+
+    public void setName2(String name){
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+        notifyChange();
+    }
+}
+
+
+
+
+
+```
+
+
++ ObservableField
+```
+public class PeopleBean extends BaseObservable {
+
+    public final ObservableField<String> name;
+    public final ObservableField<Integer> age;
+
+    public PeopleBean(ObservableField<String> name, ObservableField<Integer> age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public ObservableField<String> getName() {
+        return name;
+    }
+
+    public ObservableField<Integer> getAge() {
+        return age;
+    }
+}
+
+```
+
+
+
++ OvervableCollection
+更新集合的，同样 DataBinding 还提供了 ObservableMap 和 ObservableList。
+
+
+
+
+databinding 双向数据绑定：也就是 ui 更新之后，数据也需要更新。
+
+```
+android:text="@={databean.data}"
+
+```
+
+
+
+
+
+#### 3、Paging
+学习参考：
+http://littlecurl.xyz:8080/articles/2020/01/12/1578831362377.html
+
+
+
+
+
+
+
+
+
+
+#### 4、LiveData & MutableLiveData
+
+MultableLiveData Demo
+
+1、在 ViewModel 里面定义 MutableLiveData
+```
+public class ViewModelWithLiveDate extends ViewModel {
+
+    private MutableLiveData<Integer> mutableLiveData ;
+
+    public MutableLiveData<Integer> getMutableLiveData() {
+        if(mutableLiveData == null){
+            mutableLiveData = new MutableLiveData<>();
+            mutableLiveData.setValue(0);
+        }
+
+        return mutableLiveData;
+    }
+
+    public void addMutablelivedata(int n ){
+        mutableLiveData.setValue(mutableLiveData.getValue()+n );
+    }
+
+}
+```
+
+2、viewModel 获取这个 LiveData 并监听
+```
+      viewModelWithLiveDate = ViewModelProviders.of(this).get(ViewModelWithLiveDate.class); 
+        viewModelWithLiveDate.getMutableLiveData().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                textView.setText(String.valueOf(integer));
+            }
+        });
+```
+
+
+
+LiveData 就是数据 Bean
+```
+public class DemoData extends LiveData<DemoData> {
+    private int tag1;
+    private int tag2;
+    
+    public int getTag1() {
+        return tag1;
+
+    }
+    public void setTag1(int tag1) {
+        this.tag1 = tag1;
+        postValue(this);
+    }
+
+    public int getTag2() {
+        return tag2;
+    }
+
+    public void setTag2(int tag2) {
+        this.tag2 = tag2;
+        postValue(this);
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+todo:
+泳道问题
+合并代码和测试，其他的比如 lint 代码检查
+
+
+
+mvvm
+晚上整理之前的知识点
+第三方框架问题
+flutter
+
+todo:
+pageing 框架 demo 看完总结完成，上传 github
+
+
 
 
 

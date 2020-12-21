@@ -31,7 +31,7 @@ import javax.tools.StandardLocation;
 
 /**
  * Created by hcw  on 2020/5/30
- * 类描述：
+ * 类描述：这个注解处理器的作用就是扫描并解析注解，然后生成 destination.jason 这个文件。这个文件里面保存了每个 activity 的配置信息。
  * all rights reserved
  */
 
@@ -143,6 +143,7 @@ public class NavProcessor extends AbstractProcessor {
             }
         }
 
+        System.out.println("----------------process end 2020.12.17 ------------------");
 
         return true;
 
@@ -150,6 +151,10 @@ public class NavProcessor extends AbstractProcessor {
 
 
     private void handleDestination(Set<? extends Element> elements, Class<? extends Annotation> annotationClaz, HashMap<String, JSONObject> destMap) {
+
+        System.out.println("----------------process handleDestination 2020.12.17 ------------------");
+
+
         for (Element element : elements) {
             //TypeElement是Element的一种。
             //如果我们的注解标记在了类名上。所以可以直接强转一下。使用它得到全类名
