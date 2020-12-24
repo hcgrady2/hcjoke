@@ -37,6 +37,8 @@ public class HomeFragment extends AbsListFragment<Feed, HomeViewModel> {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        //监听数据
         mViewModel.getCacheLiveData().observe(this, new Observer<PagedList<Feed>>() {
             @Override
             public void onChanged(PagedList<Feed> feeds) {

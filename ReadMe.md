@@ -70,7 +70,6 @@ make project ，理论上会在 asstes 下生成文件。随便修改注解的�
 
 
 
-
 #### 4、定制 Fragment 导航器
 1、默认 repleace 会导致生命周期重新走一遍。
 
@@ -91,10 +90,6 @@ make project ，理论上会在 asstes 下生成文件。随便修改注解的�
 ```
 
 这样生命周期只初始化一次。
-
-
-
-
 
 
 
@@ -208,13 +203,13 @@ paging 的 DiffUtil 原理是 Myers 差分算法。
 
 
 
-
-
 ### 六、
 
 todo:
 2、paging demo
 3、后台部署
+
+
 
 
 
@@ -270,6 +265,9 @@ cancelUniqueWork(String) : 通过名字取消一个唯一任务
 
 + WorkStatus
 包含任务的状态和任务的信息，以 LiveData 的形式提供给观察者。
+
+
+
 
 
 
@@ -426,8 +424,6 @@ public class PeopleBean extends BaseObservable {
 更新集合的，同样 DataBinding 还提供了 ObservableMap 和 ObservableList。
 
 
-
-
 databinding 双向数据绑定：也就是 ui 更新之后，数据也需要更新。
 
 ```
@@ -436,27 +432,62 @@ android:text="@={databean.data}"
 ```
 
 
-
-
-
 #### 3、Paging
 学习参考：
 http://littlecurl.xyz:8080/articles/2020/01/12/1578831362377.html
 
++ PagedList        ：  从 DataSource 获取数据。
++ PagedList        ：  使用 PagedListAdapter。
++ AsyncListUtil    ：  可以异步加载内容。
++ DataSouce        :   数据源，用来获取数据。
++ PageList         :   承载数据，代表一页数据。
++ PagedListAdapter :   配合 PagedList 使用的 Adapter ，不能直接使用 RecyclerView 的 Adapter  。
 
 
 
+一般框架：
+1、定义一个 DataSource
+
+里面定义初始化加载数据和加载更多数据的方法，Paging 框架自动回调。
+
+DataSource 可以是 ItemKeyedDataSource 或者 PositonalDataSource 。
+
+
+2、继承 DataSource.Factory 来返回 DataSource ,提供 Paging 调用
 
 
 
+3、创建 ViewwModel
+
+viewModel 里面，通过 LivePagedListBuilder 来返回 LiveData<PagedList> 可观测对象
+```
+        convertList = new LivePagedListBuilder<>(concertFactory, 20).build();
+```
+
+
+4、Activity 使用
+```
+     ConcertViewModel viewModel =
+                ViewModelProviders.of(this).get(ConcertViewModel.class);
+
+        viewModel.getConvertList().observe(this, concerts -> adapter.submitList(concerts));
+
+```
 
 
 
 #### 4、LiveData & MutableLiveData
 
-MultableLiveData Demo
++ LiveData 可被观察，可感知他们属于的界面的生命周期 。
++ LiveData 的数据来源一般都是 ViewModel 。
++ LiveData 需要检查观察者的状态，当是 actie 状态时，才去更新。
++ LiveData 是一个抽象累，不能直接使用，MutableLiveData 是最简单的一个实现。
+
+
+MultableLiveData
 
 1、在 ViewModel 里面定义 MutableLiveData
+
 ```
 public class ViewModelWithLiveDate extends ViewModel {
 
@@ -479,6 +510,7 @@ public class ViewModelWithLiveDate extends ViewModel {
 ```
 
 2、viewModel 获取这个 LiveData 并监听
+
 ```
       viewModelWithLiveDate = ViewModelProviders.of(this).get(ViewModelWithLiveDate.class); 
         viewModelWithLiveDate.getMutableLiveData().observe(this, new Observer<Integer>() {
@@ -492,6 +524,7 @@ public class ViewModelWithLiveDate extends ViewModel {
 
 
 LiveData 就是数据 Bean
+
 ```
 public class DemoData extends LiveData<DemoData> {
     private int tag1;
@@ -519,50 +552,65 @@ public class DemoData extends LiveData<DemoData> {
 
 
 
+3、setValue 和 postValue
+setValue 只能在主线程调用，postValue 可以在任何线程调用。
 
 
 
+4、Transformations#map() 和 Transformations#switchMap
+Transformations#map() 可以进行 LiveData 的数据转换。
+Transformations#switchmap 可以选择不同的数据源。
+
+```
+var triggerLiveData = MutableLiveData<Boolean>()
+val targetLiveData = Transformations.switchMap(triggerLiveData){
+	if(it){
+		repository.getTargetLiveDataFromKK()
+	}else{
+		repository.getTargetLiveDataFromJJ()
+	}
+}
+
+```
+
+#### 5、AndroidViewModel 和 ViewModel
+
+ViewModel 可以感知生命周期，管理数据，数据一直保持在内存中，如屏幕旋转之后，数据可以继续保存。
+
+onSaveInstanceState() 也可以保存和恢复数据，但是只能保存少量的数据。
+
+AndroidViewModel 创建时会加入 Application 。
 
 
+ViewModel 一般都和 LiveData 一起使用。
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+两个 Fragment 可以使用他们所属于的 Activity 的 ViewModel 来实现数据通信。
 
 
 
 todo:
-泳道问题
-合并代码和测试，其他的比如 lint 代码检查
+
+泳道问题,合并
+
+合并代码和测试，还需要测试。
+
+其他的比如 lint 代码检查
+
+新需求
 
 
 
-mvvm
+
+
 晚上整理之前的知识点
+
+
 第三方框架问题
+
+
 flutter
 
-todo:
-pageing 框架 demo 看完总结完成，上传 github
+
 
 
 

@@ -18,6 +18,9 @@ import com.hc.libnetwork.JsonCallback;
 import com.hc.libnetwork.cache.CacheManager;
 
 
+/**
+ * 用户管理，保存到数据库中的
+ */
 public class UserManager {
     private static final String KEY_CACHE_USER = "cache_user";
     private static UserManager mUserManager = new UserManager();

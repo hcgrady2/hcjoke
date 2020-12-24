@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 /**
  * Created by hcw  on 2020/6/4
- * 类描述：
+ * 类描述：Room  数据库中的 Bean
  * all rights reserved
  */
 

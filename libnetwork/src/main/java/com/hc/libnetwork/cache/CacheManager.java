@@ -7,7 +7,7 @@ import java.io.ObjectOutputStream;
 
 /**
  * Created by hcw  on 2020/6/4
- * 类描述：
+ * 类描述： 操作缓存，都是序列化和反序列化之后，操作数据库
  * all rights reserved
  */
 

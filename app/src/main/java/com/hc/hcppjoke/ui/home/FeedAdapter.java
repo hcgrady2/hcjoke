@@ -53,6 +53,8 @@ public class FeedAdapter extends AbsPagedListAdapter<Feed, FeedAdapter.ViewHolde
         mCategory = category;
     }
 
+
+    //视频和图文不一样
     @Override
     public int getItemViewType2(int position) {
         Feed feed = getItem(position);

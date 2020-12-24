@@ -8,6 +8,11 @@ import androidx.paging.DataSource;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
+
+/**
+ *AbsViewModel 里面封装通用的功能，比如分页等，分页设置等。
+ * @param <T>
+ */
 public abstract class AbsViewModel<T> extends ViewModel {
 
 
@@ -83,6 +88,9 @@ public abstract class AbsViewModel<T> extends ViewModel {
             return dataSource;
         }
     };
+
+
+
 
     //子类实现，创建实例
     public abstract DataSource createDataSource();

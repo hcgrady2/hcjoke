@@ -124,6 +124,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
+
+    /**
+     * 第三方登陆成功之后，保存信息到自己的服务器
+     * @param nickname
+     * @param avatar
+     * @param openid
+     * @param expires_time
+     */
     private void save(String nickname, String avatar, String openid, long expires_time) {
         ApiService.get("/user/insert")
                 .addParam("name", nickname)
@@ -134,7 +142,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onSuccess(ApiResponse<User> response) {
                         if (response.body != null) {
+
+                            //登陆成功之后，保持到本地
                             UserManager.get().save(response.body);
+
                             finish();
                         } else {
                             //切换到主线程

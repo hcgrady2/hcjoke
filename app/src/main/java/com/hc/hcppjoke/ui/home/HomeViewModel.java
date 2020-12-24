@@ -25,12 +25,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+
+/**
+ * 首页 ViewModel
+ */
 public class HomeViewModel extends AbsViewModel<Feed> {
 
     private volatile boolean witchCache = true;
     private MutableLiveData<PagedList<Feed>> cacheLiveData = new MutableLiveData<>();
     private AtomicBoolean loadAfter = new AtomicBoolean(false);
     private String mFeedType;
+
+
+
 
     @Override
     public DataSource createDataSource() {
@@ -45,6 +52,7 @@ public class HomeViewModel extends AbsViewModel<Feed> {
 
         mFeedType = feedType;
     }
+
 
     class FeedDataSource extends ItemKeyedDataSource<Integer, Feed> {
         @Override

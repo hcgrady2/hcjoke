@@ -37,6 +37,10 @@ import java.util.List;
  * all rights reserved
  */
 
+
+/**
+ * 沙发页面，TabLayout + ViewPager2 来构建
+ */
 @FragmentDestination(pageUrl = "main/tabs/sofa", asStarter = false)
 public class SofaFragment extends Fragment {
     private FragmentSofaBinding binding;
@@ -70,7 +74,8 @@ public class SofaFragment extends Fragment {
         //限制页面预加载(禁止掉了)
         viewPager2.setOffscreenPageLimit(ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
         //viewPager2默认只有一种类型的Adapter。FragmentStateAdapter
-        //并且在页面切换的时候 不会调用子Fragment的setUserVisibleHint ，取而代之的是onPause(),onResume()、
+        //并且在页面切换的时候 不会调用子Fragment的setUserVisibleHint ，取而代之的是onPause(),onResume()
+        //ViewPager 通过设置 FragmentStateAdapter 来实现页面的切换
         viewPager2.setAdapter(new FragmentStateAdapter(getChildFragmentManager(), this.getLifecycle()) {
             @NonNull
             @Override
@@ -152,6 +157,12 @@ public class SofaFragment extends Fragment {
         return tabView;
     }
 
+
+    /**
+     * 沙发页面的 tab 页面复用的是首页 Fragment
+     * @param position
+     * @return
+     */
     public Fragment getTabFragment(int position) {
         return HomeFragment.newInstance(tabs.get(position).tag);
     }
