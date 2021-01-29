@@ -154,23 +154,15 @@ Room,通过注解来使用数据库，可以和 LiveData,LifeCycle,Paging 融合
 
 @Embedded : Bean 中的 Bean 也会生成数据表中的列。
 
-
 @Ignore : 忽略某个字段
 
-
-
 @Index : 
-
 
 @Relation : 关联查询
 
 @TypeConverter : 类型转换用
 
-
-
-
 #### 3、使用 Room 缓存
-
 
 
 ### 三、Tab 架构搭建
@@ -192,8 +184,6 @@ paging 的 DiffUtil 原理是 Myers 差分算法。
 
 
 
-
-
 ### 五、分享面板
 1、分享面板上的菜单是通过 packagemanger 解析已安装应用来获取的。
 
@@ -201,15 +191,7 @@ paging 的 DiffUtil 原理是 Myers 差分算法。
 2、AlertDialog 需要 AndroidX 下的。
 
 
-
-
 ### 六、
-
-todo:
-2、paging demo
-3、后台部署
-
-
 
 
 
@@ -260,11 +242,27 @@ cancelUniqueWork(String) : 通过名字取消一个唯一任务
 有两个子类，OneTimeWorkRequest 和 PeriodicWorkRequest，用来指定让哪个 Worker 执行任务，指定执行环境和执行顺序等。
 
 + WorkManager
-管理任务请求和任务队列，发起的 WorkRequeset 会进入它的任务队列。
-
+管理任务请求和任务队列，发起的 WorkRequest 会进入它的任务队列。
 
 + WorkStatus
 包含任务的状态和任务的信息，以 LiveData 的形式提供给观察者。
+
+
+#### WorkManager 的使用
+https://juejin.cn/post/6844903953570725896#heading-26
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -585,34 +583,6 @@ AndroidViewModel 创建时会加入 Application 。
 ViewModel 一般都和 LiveData 一起使用。
 
 两个 Fragment 可以使用他们所属于的 Activity 的 ViewModel 来实现数据通信。
-
-
-
-todo:
-
-泳道问题,合并
-
-合并代码和测试，还需要测试。
-
-其他的比如 lint 代码检查
-
-新需求
-
-
-
-
-
-晚上整理之前的知识点
-
-
-第三方框架问题
-
-
-flutter
-
-
-
-
 
 
 
