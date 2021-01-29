@@ -250,26 +250,224 @@ cancelUniqueWork(String) : 通过名字取消一个唯一任务
 
 #### WorkManager 的使用
 https://juejin.cn/post/6844903953570725896#heading-26
+https://blog.csdn.net/qq_15988951/article/details/105867817
+
+
+#####   使用步骤
+
+1、
+
+继承 Worker ，实现里面的 doWork 方法处理异步任务
+
+```
+public class UploadFileWorker extends Worker {
+
+    public UploadFileWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
+        super(context, workerParams);
+    }
+
+    @NonNull
+    @Override
+    public Result doWork() {
+        Data inputData = getInputData();
+        String filePath = inputData.getString("file");
+        String fileUrl = FileUploadManager.upload(filePath);
+        if (TextUtils.isEmpty(fileUrl)){
+            return Result.failure();
+        }else{
+            Data outputData = new Data.Builder().putString("fileUrl", fileUrl)
+                    .build();
+            return Result.success(outputData);
+        }
+    }
+}
+```
+
+2、定义 WorkRequest 定义 Work 执行的约束条件
+```
+        OneTimeWorkRequest request = new OneTimeWorkRequest
+                .Builder(UploadFileWorker.class)
+                .setInputData(inputData)
+                .setConstraints(constraints)
+//                .setConstraints(constraints)
+//                //设置一个拦截器，在任务执行之前 可以做一次拦截，去修改入参的数据然后返回新的数据交由worker使用
+//                .setInputMerger(null)
+//                //当一个任务被调度失败后，所要采取的重试策略，可以通过BackoffPolicy来执行具体的策略
+//                .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 10, TimeUnit.SECONDS)
+//                //任务被调度执行的延迟时间
+//                .setInitialDelay(10, TimeUnit.SECONDS)
+//                //设置该任务尝试执行的最大次数
+//                .setInitialRunAttemptCount(2)
+//                //设置这个任务开始执行的时间
+//                //System.currentTimeMillis()
+//                .setPeriodStartTime(0, TimeUnit.SECONDS)
+//                //指定该任务被调度的时间
+//                .setScheduleRequestedAt(0, TimeUnit.SECONDS)
+//                //当一个任务执行状态编程finish时，又没有后续的观察者来消费这个结果，难么workamnager会在
+//                //内存中保留一段时间的该任务的结果。超过这个时间，这个结果就会被存储到数据库中
+//                //下次想要查询该任务的结果时，会触发workmanager的数据库查询操作，可以通过uuid来查询任务的状态
+//                .keepResultsForAtLeast(10, TimeUnit.SECONDS)
+                .build();
+
+
+```
+
+
+3、将 request 加入队列等待调度
+```
+
+
+        UUID uploadRequestId= request.getId();
+        //每一个request对应一个UUID,通过这个ID，可以监听该任务的一些状态及执行结果
+
+
+        WorkContinuation workContinuation = WorkManager.getInstance(StudyMainActivity.this)
+                .beginWith(request);
+
+
+
+        workContinuation.enqueue();
+
+```
+
+4、通过 LiveData 监听执行结果
+```
+
+
+//通过返回的LiveData，监听任务的执行结果及UI更新
+        workContinuation.getWorkInfosLiveData().observe(StudyMainActivity.this, new Observer<List<WorkInfo>>() {
+            @Override
+            public void onChanged(List<WorkInfo> workInfos) {
+                //block runing enuqued failed susscess finish
+                for (WorkInfo workInfo : workInfos) {
+                    WorkInfo.State state = workInfo.getState();
+                    Data outputData = workInfo.getOutputData();
+                    UUID uuid = workInfo.getId();
+
+                    if (state == WorkInfo.State.FAILED) {
+                        if (uuid.equals(uploadRequestId)) {
+
+                            Log.i(TAG, "onChanged: 文件上传任务失败了");
+
+                        }
+                    } else if (state == WorkInfo.State.SUCCEEDED) {
+                        String fileUrl = outputData.getString("fileUrl");
+                        if (uuid.equals(uploadRequestId)) {
+
+                            Log.i(TAG, "onChanged: 文件上传任务成功了");
+
+                        }
+                    }
+                }
+            }
+        });
+
+```
 
 
 
 
 
+##### 数据交互
+通过 Data 进行
+```
+  Data inputData = new Data.Builder()
+                .putString("file", filePath)
+                .build();
+
+        OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(UploadFileWorker.class)
+                .setInputData(inputData)
+                .build();
+```
+
+
+```
+  Data inputData = getInputData();
+        String filePath = inputData.getString("file");
+```
 
 
 
+#### 设置约束条件
+```
+
+OneTimeWorkRequest request = new OneTimeWorkRequest
+                .Builder(UploadFileWorker.class)
+                .setInputData(inputData)
+                .setConstraints(constraints)
+//                .setConstraints(constraints)
+//                //设置一个拦截器，在任务执行之前 可以做一次拦截，去修改入参的数据然后返回新的数据交由worker使用
+//                .setInputMerger(null)
+//                //当一个任务被调度失败后，所要采取的重试策略，可以通过BackoffPolicy来执行具体的策略
+//                .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 10, TimeUnit.SECONDS)
+//                //任务被调度执行的延迟时间
+//                .setInitialDelay(10, TimeUnit.SECONDS)
+//                //设置该任务尝试执行的最大次数
+//                .setInitialRunAttemptCount(2)
+//                //设置这个任务开始执行的时间
+//                //System.currentTimeMillis()
+//                .setPeriodStartTime(0, TimeUnit.SECONDS)
+//                //指定该任务被调度的时间
+//                .setScheduleRequestedAt(0, TimeUnit.SECONDS)
+//                //当一个任务执行状态编程finish时，又没有后续的观察者来消费这个结果，难么workamnager会在
+//                //内存中保留一段时间的该任务的结果。超过这个时间，这个结果就会被存储到数据库中
+//                //下次想要查询该任务的结果时，会触发workmanager的数据库查询操作，可以通过uuid来查询任务的状态
+//                .keepResultsForAtLeast(10, TimeUnit.SECONDS)
+                .build();
+                
+                
+```
 
 
 
+##### 按照 a->b->c 顺序执行
+```
+
+      OneTimeWorkRequest requestA = new OneTimeWorkRequest.Builder(UploadFileWorker.class)
+                .build();
+        OneTimeWorkRequest requestB = new OneTimeWorkRequest.Builder(UploadFileWorker.class)
+                .build();
+        OneTimeWorkRequest requestC = new OneTimeWorkRequest.Builder(UploadFileWorker.class)
+                .build();
+        
+        WorkManager.getInstance(PublishActivity.this).beginWith(requestA).then(requestB).then(requestC).enqueue();
 
 
 
+```
 
 
 
+##### ab -> cd ->e 执行
+```
 
+ OneTimeWorkRequest requestA = new OneTimeWorkRequest.Builder(UploadFileWorker.class)
+                .build();
+                
+        OneTimeWorkRequest requestB = new OneTimeWorkRequest.Builder(UploadFileWorker.class)
+                .build();
+                
+        OneTimeWorkRequest requestC = new OneTimeWorkRequest.Builder(UploadFileWorker.class)
+                .build();
+                
+        OneTimeWorkRequest requestD = new OneTimeWorkRequest.Builder(UploadFileWorker.class)
+                .build();
+                
+        OneTimeWorkRequest requestE = new OneTimeWorkRequest.Builder(UploadFileWorker.class)
+                .build();
 
+        WorkContinuation chainA = WorkManager.getInstance(PublishActivity.this).beginWith(requestA).then(requestB);
+        WorkContinuation chainB = WorkManager.getInstance(PublishActivity.this).beginWith(requestC).then(requestD);
 
+        List<WorkContinuation> chains =new ArrayList<>();
+        chains.add(chainA);
+        chains.add(chainB);
+        
+     WorkContinuation.combine(chains).then(requestE).enqueue();
+     
+     
+     
+```
 
 ### 总结复习
 根据注解生成了 destination.json 文件，里面保存了 pageUrl 和 name 。

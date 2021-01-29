@@ -1,14 +1,17 @@
 package com.hc.hcppjoke;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hc.hcppjoke.model.Destination;
 import com.hc.hcppjoke.model.User;
+import com.hc.hcppjoke.study.StudyMainActivity;
 import com.hc.hcppjoke.ui.login.UserManager;
 import com.hc.hcppjoke.utils.AppConfig;
 import com.hc.hcppjoke.utils.NavGraphBuilder;
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity   implements BottomNavigatio
     private NavController navController;
     private AppBottomBar navView;
 
+    private static final String TAG = "MainActivityTag";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,15 +86,22 @@ public class MainActivity extends AppCompatActivity   implements BottomNavigatio
             Destination value = entry.getValue();
             if (value != null && !UserManager.get().isLogin() && value.needLogin && value.id == menuItem.getItemId()) {
 
-                UserManager.get().login(this).observe(this, new Observer<User>() {
-                    @Override
-                    public void onChanged(User user) {
-                        if (user != null) {
-                            navView.setSelectedItemId(menuItem.getItemId());
-                        }
-                    }
-                });
 
+                Log.i(TAG, "onNavigationItemSelected: pageUrl :" +value.pageUrl);
+
+                if (value.pageUrl.equals("main/tabs/publish")){
+                    startActivity(new Intent(MainActivity.this, StudyMainActivity.class));
+
+                }else {
+                    UserManager.get().login(this).observe(this, new Observer<User>() {
+                        @Override
+                        public void onChanged(User user) {
+                            if (user != null) {
+                                navView.setSelectedItemId(menuItem.getItemId());
+                            }
+                        }
+                    });
+                }
 
                 return false;
             }

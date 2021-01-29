@@ -92,6 +92,8 @@
             android:name="com.tencent.connect.common.AssistActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
+        <activity android:name=".study.StudyMainActivity"
+            />
 
 
     </application>
